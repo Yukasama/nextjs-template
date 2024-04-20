@@ -2,13 +2,19 @@
 
 ## Installation Steps
 
-### 1. Setup Prisma
+### 1. Install packages
+
+```bash
+pnpm i
+```
+
+### 2. Setup Prisma
 
 ```bash
 pnpm run prisma
 ```
 
-### 2. Start Server
+### 3. Start Server
 
 ```bash
 pnpm run dev
@@ -16,7 +22,7 @@ pnpm run dev
 
 ## Features
 
-- Next-Auth (Authentication)
+- Next-Auth v5 (Authentication)
 - SQLite (Dev DB)
 - Prisma (ORM)
 - Tailwind
