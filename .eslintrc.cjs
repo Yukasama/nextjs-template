@@ -10,6 +10,7 @@ module.exports = {
   },
   rules: {
     curly: 'warn',
+    'unicorn/prevent-abbreviations': 'off',
   },
   plugins: [
     '@typescript-eslint',

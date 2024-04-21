@@ -4,7 +4,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { db } from '@/lib/db'
 import { TOKEN_CONFIG } from '@/config/token'
 
-export const generatePasswordResetToken = async (email: string) => {
+interface Props {
+  email: string
+}
+
+export const generatePasswordResetToken = async ({ email }: Props) => {
   const token = uuidv4()
   const expires = new Date(Date.now() + 3600 * 1000)
 
@@ -27,7 +31,11 @@ export const generatePasswordResetToken = async (email: string) => {
   })
 }
 
-export const generateVerificationToken = async (email: string) => {
+export const generateVerificationToken = async ({ email }: Props) => {
+  if (!email) {
+    throw new Error('Email is required')
+  }
+
   const token = uuidv4()
   const expires = new Date(Date.now() + TOKEN_CONFIG.verifyTokenExpiry)
 

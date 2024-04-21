@@ -9,10 +9,11 @@ import { AuthError } from 'next-auth'
 import { signIn } from '@/lib/auth'
 import { z } from 'zod'
 
-export const login = async (
-  values: z.infer<typeof SignInSchema>,
-  callbackUrl?: string | null
-) => {
+export const login = async ({
+  values,
+}: {
+  values: z.infer<typeof SignInSchema>
+}) => {
   const validatedFields = SignInSchema.safeParse(values)
   if (!validatedFields.success) {
     return { error: 'Invalid fields!' }
@@ -20,20 +21,20 @@ export const login = async (
 
   const { email, password } = validatedFields.data
 
-  const existingUser = await getUserByEmail(email)
+  const existingUser = await getUserByEmail({ email })
   if (!existingUser?.email || !existingUser?.hashedPassword) {
     return { error: 'Email does not exist!' }
   }
 
   if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(
-      existingUser.email
-    )
+    const verificationToken = await generateVerificationToken({
+      email: existingUser.email,
+    })
 
-    await sendVerificationEmail(
-      verificationToken.identifier,
-      verificationToken.token
-    )
+    await sendVerificationEmail({
+      email: verificationToken.identifier,
+      token: verificationToken.token,
+    })
 
     return { success: 'Confirmation email sent!' }
   }
@@ -42,7 +43,7 @@ export const login = async (
     await signIn('credentials', {
       email,
       password,
-      redirectTo: callbackUrl ?? DEFAULT_LOGIN_REDIRECT,
+      redirectTo: DEFAULT_LOGIN_REDIRECT,
     })
 
     return { success: 'Signed in!' }

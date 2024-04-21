@@ -74,3 +74,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .f-box {
+    @apply flex items-center justify-center;
+  }
+  .f-col {
+    @apply flex flex-col;
+  }
+}

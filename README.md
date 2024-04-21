@@ -8,13 +8,13 @@
 pnpm i
 ```
 
-### 2. Setup Prisma
+### 2. Setup Prisma ORM
 
 ```bash
 pnpm run prisma
 ```
 
-### 3. Start Server
+### 3. Start server
 
 ```bash
 pnpm run dev
@@ -27,3 +27,5 @@ pnpm run dev
 - Prisma (ORM)
 - Tailwind
 - Resend (Mailing)
+- Testing (Jest)
+- Logging (Pino)

@@ -25,8 +25,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# eslint
+.eslintcache
+
 # local env files
 .env*.local
+
+# prisma
+prisma/dev.db
+prisma/dev.db-journal
 
 # vercel
 .vercel

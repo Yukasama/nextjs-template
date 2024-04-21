@@ -1,0 +1,12 @@
+.vscode/*
+build/*
+coverage/*
+dist/*
+node-ts/*
+scripts/*
+temp/*
+node_modules/*
+
+postcss.config.js
+.eslintrc.cjs
+next.config.mjs

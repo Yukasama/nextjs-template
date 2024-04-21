@@ -5,7 +5,12 @@ import { Resend } from 'resend'
 const resend = new Resend(env.RESEND_API_KEY)
 const domain = process.env.VERCEL_URL
 
-export const sendPasswordResetEmail = async (email: string, token: string) => {
+interface Props {
+  email: string
+  token: string
+}
+
+export const sendPasswordResetEmail = async ({ email, token }: Props) => {
   const resetLink = `${domain}/auth/new-password?token=${token}`
 
   await resend.emails.send({
@@ -16,7 +21,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
   })
 }
 
-export const sendVerificationEmail = async (email: string, token: string) => {
+export const sendVerificationEmail = async ({ email, token }: Props) => {
   const confirmLink = `${domain}/auth/new-verification?token=${token}`
 
   await resend.emails.send({
