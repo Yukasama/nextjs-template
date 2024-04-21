@@ -15,39 +15,41 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { SignInSchema } from '@/lib/validators/user'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { login } from '@/actions/login'
 import { useMutation } from '@tanstack/react-query'
 import { CircleX } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export const SignIn = () => {
-  const [mounted, setMounted] = useState(false)
   const [error, setError] = useState<string | undefined>('')
 
-  useEffect(() => setMounted(true), [])
+  const router = useRouter()
 
   const form = useForm({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: '',
       password: '',
-      code: '',
     },
   })
 
   const { mutate: signIn, isPending } = useMutation({
-    mutationFn: () =>
-      login({
+    mutationFn: async () => {
+      return await login({
         values: {
           email: form.getValues('email'),
           password: form.getValues('password'),
         },
-      }),
+      })
+    },
     onSettled: (data) => {
       setError('')
-
       if (data && 'error' in data) {
         return setError(data.error)
+      }
+      if (data && 'success' in data) {
+        router.push('/')
       }
     },
     onError: () => toast.error('We have trouble signing you in.'),
@@ -55,9 +57,12 @@ export const SignIn = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={signIn} className="gap-3 f-col">
+      <form
+        onSubmit={form.handleSubmit(() => signIn())}
+        className="gap-3 f-col"
+      >
         {error && (
-          <div className="self-center">
+          <div className="self-center text-sm bg-red-500 rounded-md p-1 px-2.5">
             <div className="flex items-center gap-2 text-white">
               <CircleX size={18} />
               {error}
@@ -106,11 +111,7 @@ export const SignIn = () => {
         >
           Forgot Password?
         </Link>
-        <Button
-          className="text-[15px] mt-1 button-secondary font-semibold"
-          disabled={!mounted || isPending}
-          isLoading={isPending}
-        >
+        <Button className="mt-1" disabled={isPending} isLoading={isPending}>
           Sign in with Email
         </Button>
       </form>

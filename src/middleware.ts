@@ -25,16 +25,7 @@ export default auth((req) => {
   }
 
   if (!isLoggedIn && isPathPrivate(nextUrl.pathname)) {
-    let callbackUrl = nextUrl.pathname
-    if (nextUrl.search) {
-      callbackUrl += nextUrl.search
-    }
-
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-
-    return Response.redirect(
-      new URL(`/sign-in?callbackUrl=${encodedCallbackUrl}`, nextUrl)
-    )
+    return Response.redirect('http://localhost:3000/sign-in')
   }
 })
 

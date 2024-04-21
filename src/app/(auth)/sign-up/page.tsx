@@ -5,7 +5,6 @@ import { Separator } from '@/components/ui/separator'
 import { AuthCard } from '../auth-card'
 
 export const metadata = { title: 'Sign Up' }
-// export const runtime = "edge";
 
 export default function Page() {
   return (

@@ -4,13 +4,19 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowRightCircle, CircleX } from 'lucide-react'
-import { Form, FormField } from '@/components/ui/form'
-import { Button } from '@nextui-org/button'
-import { Input } from '@nextui-org/input'
-import { trpc } from '@/trpc/client'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { NewPasswordSchema } from '@/lib/validators/user'
 import { useState } from 'react'
-import { Chip } from '@nextui-org/chip'
+import { useMutation } from '@tanstack/react-query'
 
 export const NewPassword = () => {
   const [error, setError] = useState('')
@@ -26,7 +32,7 @@ export const NewPassword = () => {
     },
   })
 
-  const { mutate: newPassword, isLoading } = trpc.user.newPassword.useMutation({
+  const { mutate: newPassword, isPending } = useMutation({
     onError: () => setError('Password could not be updated.'),
     onSuccess: () => router.push('/'),
   })
@@ -43,48 +49,51 @@ export const NewPassword = () => {
         className="gap-3 f-col"
       >
         {error && (
-          <Chip color="danger" variant="shadow" className="self-center">
+          <div className="self-center text-sm bg-red-500 rounded-md p-1 px-2.5">
             <div className="flex items-center gap-2 text-white">
               <CircleX size={18} />
               {error}
             </div>
-          </Chip>
+          </div>
         )}
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
-            <Input
-              label="Password"
-              type="password"
-              variant="bordered"
-              errorMessage={form.formState.errors.password?.message}
-              placeholder="Enter your Password"
-              {...field}
-            />
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  disabled={isPending}
+                  placeholder="Enter your Password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="confPassword"
           render={({ field }) => (
-            <Input
-              label="Confirm Password"
-              type="password"
-              variant="bordered"
-              errorMessage={form.formState.errors.confPassword?.message}
-              placeholder="Confirm your Password"
-              {...field}
-            />
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  disabled={isPending}
+                  placeholder="Confirm your Password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
         />
-        <Button
-          color="primary"
-          isLoading={isLoading}
-          className="mt-2"
-          type="submit"
-        >
-          {!isLoading && <ArrowRightCircle size={18} />}
+        <Button isLoading={isPending} disabled={isPending} className="mt-2">
+          {!isPending && <ArrowRightCircle size={18} />}
           Change Password
         </Button>
       </form>

@@ -1,8 +1,6 @@
 import { BackButton } from './back-button'
 import { CompanyLogo } from '@/components/company-logo'
 
-// export const runtime = "edge";
-
 export default function Layout({
   children,
 }: Readonly<React.PropsWithChildren>) {

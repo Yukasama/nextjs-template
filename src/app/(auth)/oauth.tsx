@@ -6,8 +6,6 @@ import { capitalize, cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { useMutation } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
-import { DEFAULT_LOGIN_REDIRECT } from '@/config/routes'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   provider: 'google' | 'github'
@@ -23,14 +21,8 @@ const providerIcons = {
  * @param provider Provider to sign in with.
  */
 export const OAuth = ({ provider, className }: Props) => {
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl')
-
   const { mutate: login, isPending } = useMutation({
-    mutationFn: async () =>
-      await signIn(provider, {
-        callbackUrl: callbackUrl ?? DEFAULT_LOGIN_REDIRECT,
-      }),
+    mutationFn: async () => await signIn(provider),
     onError: () => toast.error('We have trouble signing you in.'),
   })
 

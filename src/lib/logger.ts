@@ -2,7 +2,7 @@ import pino from 'pino'
 
 const isServer = typeof window === 'undefined'
 
-const logger = pino({
+export const logger = pino({
   enabled: isServer,
   level: process.env.LOG_LEVEL ?? 'info',
   // prettyPrint: isServer && {
@@ -11,5 +11,3 @@ const logger = pino({
   //   translateTime: 'yyyy-dd-mm, h:MM:ss TT',
   // },
 })
-
-export default logger

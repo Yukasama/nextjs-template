@@ -2,28 +2,30 @@
 
 import { getUserByEmail } from '@/lib/data/user'
 import { sendVerificationEmail } from '@/lib/mail'
-import { DEFAULT_LOGIN_REDIRECT } from '@/config/routes'
 import { generateVerificationToken } from '@/lib/token'
 import { SignInSchema } from '@/lib/validators/user'
 import { AuthError } from 'next-auth'
 import { signIn } from '@/lib/auth'
 import { z } from 'zod'
+import { logger } from '@/lib/logger'
 
 export const login = async ({
   values,
 }: {
   values: z.infer<typeof SignInSchema>
 }) => {
+  const ERROR_MSG = 'Invalid credentials.'
   const validatedFields = SignInSchema.safeParse(values)
   if (!validatedFields.success) {
-    return { error: 'Invalid fields!' }
+    return { error: ERROR_MSG }
   }
 
   const { email, password } = validatedFields.data
+  logger.info('login (attempt): email=%s', email)
 
   const existingUser = await getUserByEmail({ email })
-  if (!existingUser?.email || !existingUser?.hashedPassword) {
-    return { error: 'Email does not exist!' }
+  if (!existingUser?.email) {
+    return { error: ERROR_MSG }
   }
 
   if (!existingUser.emailVerified) {
@@ -35,22 +37,23 @@ export const login = async ({
       email: verificationToken.identifier,
       token: verificationToken.token,
     })
-
-    return { success: 'Confirmation email sent!' }
   }
 
   try {
     await signIn('credentials', {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: '/',
     })
 
-    return { success: 'Signed in!' }
+    logger.info('login (success): email=%s', email)
+
+    return { success: 'Confirmation email sent!' }
   } catch (error) {
     if (error instanceof AuthError) {
+      logger.info('login (error): email=%s error=%s', email, error.message)
       if (error.type === 'CredentialsSignin') {
-        return { error: 'Invalid credentials.' }
+        return { error: ERROR_MSG }
       }
 
       return { error: 'We have trouble signing you in.' }

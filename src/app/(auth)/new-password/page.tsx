@@ -2,7 +2,6 @@ import { AuthCard } from '../auth-card'
 import { NewPassword } from './new-password'
 
 export const metadata = { title: 'Reset Password' }
-// export const runtime = "edge";
 
 export default function Page() {
   return (
