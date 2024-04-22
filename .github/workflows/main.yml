@@ -1,30 +1,29 @@
-name: Next.js CI
+name: Nextjs-Template CI
 
 on:
   push:
-    branches: [ main ]  # Set this to your default branch
+    branches: [ main ]
   pull_request:
-    branches: [ main ]  # Set this to your default branch
+    branches: [ main ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x]  # You can specify multiple versions
+        node-version: [14.x, 16.x]
 
     steps:
-    - uses: actions/checkout@v2  # Checks-out your repository under $GITHUB_WORKSPACE
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v3
+      with:
+        version: 8
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'  # Caching dependencies for faster builds
-
-    - name: Install pnpm
-      run: npm install -g pnpm
-
+        cache: 'pnpm'
+        
     - name: Install dependencies
       run: pnpm install
 
