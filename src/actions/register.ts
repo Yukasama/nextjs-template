@@ -1,19 +1,19 @@
 'use server'
 
 import { db } from '@/lib/db'
-import { generateName } from '@/lib/generate-name'
+import { generateName } from '@/utils/generate-name'
 import { logger } from '@/lib/logger'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
-import { CreateUserSchema } from '@/lib/validators/user'
+import { CreateUserProps, CreateUserSchema } from '@/lib/validators/user'
 import { saltAndHashPassword } from '@/utils/password'
-import { z } from 'zod'
 
-export const register = async ({
-  values,
-}: {
-  values: z.infer<typeof CreateUserSchema>
-}) => {
+/**
+ * Register a new user with email and password, send a verification email.
+ * @param values `CreateUserSchema` validator
+ * @returns Success or error JSON object
+ */
+export const register = async (values: CreateUserProps) => {
   const { email, password } = await CreateUserSchema.parseAsync(values)
   logger.info('register (attempt): email=%s password=%s', email, password)
 
@@ -22,7 +22,7 @@ export const register = async ({
   })
 
   if (existingUser) {
-    logger.info('register (error: email_registered): email=%s', email)
+    logger.info('register (error=email_registered): email=%s', email)
     return { error: 'Email is already registered.' }
   }
 
@@ -46,5 +46,5 @@ export const register = async ({
   ])
 
   logger.info('register (success): email=%s', email)
-  return { success: 'Confirmation email sent!' }
+  return { success: 'Confirmation email sent.' }
 }

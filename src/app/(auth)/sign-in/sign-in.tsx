@@ -37,10 +37,8 @@ export const SignIn = () => {
   const { mutate: signIn, isPending } = useMutation({
     mutationFn: async () => {
       return await login({
-        values: {
-          email: form.getValues('email'),
-          password: form.getValues('password'),
-        },
+        email: form.getValues('email'),
+        password: form.getValues('password'),
       })
     },
     onSettled: (data) => {
@@ -62,7 +60,7 @@ export const SignIn = () => {
         className="gap-3 f-col"
       >
         {error && (
-          <div className="self-center text-sm bg-red-500 rounded-md p-1 px-2.5">
+          <div className="self-center chip bg-red-500">
             <div className="flex items-center gap-2 text-white">
               <CircleX size={18} />
               {error}

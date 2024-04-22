@@ -3,21 +3,22 @@
 import { getUserByEmail } from '@/lib/data/user'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
-import { SignInSchema } from '@/lib/validators/user'
+import { SignInProps, SignInSchema } from '@/lib/validators/user'
 import { AuthError } from 'next-auth'
 import { signIn } from '@/lib/auth'
-import { z } from 'zod'
 import { logger } from '@/lib/logger'
 
-export const login = async ({
-  values,
-}: {
-  values: z.infer<typeof SignInSchema>
-}) => {
-  const ERROR_MSG = 'Invalid credentials.'
+/**
+ * Sign in user with email and password.
+ * @param values `SignInSchema` validator
+ * @returns Success or error JSON object
+ */
+export const login = async (values: SignInProps) => {
+  const errorMsg = 'Invalid credentials.'
+
   const validatedFields = SignInSchema.safeParse(values)
   if (!validatedFields.success) {
-    return { error: ERROR_MSG }
+    return { error: errorMsg }
   }
 
   const { email, password } = validatedFields.data
@@ -25,18 +26,7 @@ export const login = async ({
 
   const existingUser = await getUserByEmail({ email })
   if (!existingUser?.email) {
-    return { error: ERROR_MSG }
-  }
-
-  if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken({
-      email: existingUser.email,
-    })
-
-    await sendVerificationEmail({
-      email: verificationToken.identifier,
-      token: verificationToken.token,
-    })
+    return { error: errorMsg }
   }
 
   try {
@@ -48,17 +38,27 @@ export const login = async ({
 
     logger.info('login (success): email=%s', email)
 
-    return { success: 'Confirmation email sent!' }
-  } catch (error) {
-    if (error instanceof AuthError) {
-      logger.info('login (error): email=%s error=%s', email, error.message)
-      if (error.type === 'CredentialsSignin') {
-        return { error: ERROR_MSG }
-      }
+    if (!existingUser.emailVerified) {
+      const verificationToken = await generateVerificationToken({
+        email: existingUser.email,
+      })
 
-      return { error: 'We have trouble signing you in.' }
+      await sendVerificationEmail({
+        email: verificationToken.identifier,
+        token: verificationToken.token,
+      })
     }
 
-    throw error
+    return { success: 'Confirmation email sent.' }
+  } catch (error) {
+    if (error instanceof AuthError) {
+      logger.error('login: email=%s error=%s', email, error.message)
+      if (error.type === 'CredentialsSignin') {
+        return { error: errorMsg }
+      }
+    }
+
+    logger.error('login: email=%s error=%s', email, error)
+    return { error: 'We have trouble signing you in.' }
   }
 }

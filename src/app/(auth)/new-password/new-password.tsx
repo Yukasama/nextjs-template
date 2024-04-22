@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input'
 import { NewPasswordSchema } from '@/lib/validators/user'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
+import { resetPassword } from '@/actions/reset-password'
 
 export const NewPassword = () => {
   const [error, setError] = useState('')
@@ -33,6 +34,12 @@ export const NewPassword = () => {
   })
 
   const { mutate: newPassword, isPending } = useMutation({
+    mutationFn: async () => {
+      return await resetPassword({
+        password: form.getValues('password'),
+        token,
+      })
+    },
     onError: () => setError('Password could not be updated.'),
     onSuccess: () => router.push('/'),
   })
@@ -40,12 +47,7 @@ export const NewPassword = () => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(() =>
-          newPassword({
-            password: form.getValues('password'),
-            token,
-          })
-        )}
+        onSubmit={form.handleSubmit(() => newPassword())}
         className="gap-3 f-col"
       >
         {error && (

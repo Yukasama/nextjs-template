@@ -82,4 +82,7 @@
   .f-col {
     @apply flex flex-col;
   }
+  .chip {
+    @apply text-sm rounded-md p-1 px-2.5;
+  }
 }

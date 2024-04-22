@@ -18,7 +18,7 @@ import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { register } from '@/actions/register'
 import { useRouter } from 'next/navigation'
-import { DEFAULT_LOGIN_REDIRECT } from '@/config/routes'
+import { defaultLoginRedirect } from '@/config/routes'
 
 export const SignUp = () => {
   const [error, setError] = useState<string | undefined>('')
@@ -36,13 +36,12 @@ export const SignUp = () => {
   })
 
   const { mutate: createUser, isPending } = useMutation({
-    mutationFn: async () =>
-      await register({
-        values: {
-          email: form.getValues('email'),
-          password: form.getValues('password'),
-        },
-      }),
+    mutationFn: async () => {
+      return await register({
+        email: form.getValues('email'),
+        password: form.getValues('password'),
+      })
+    },
     onSettled: (data) => {
       setError('')
       setSuccess('')
@@ -50,7 +49,9 @@ export const SignUp = () => {
       if (data && 'error' in data) {
         return setError(data.error)
       }
-      router.push(DEFAULT_LOGIN_REDIRECT)
+      if (data && 'success' in data) {
+        router.push(defaultLoginRedirect)
+      }
     },
     onError: () => setError('We currently have trouble signing you up.'),
   })
@@ -62,7 +63,7 @@ export const SignUp = () => {
         className="gap-3 f-col"
       >
         {success && (
-          <div className="self-center text-sm bg-green-500 rounded-md p-1 px-2.5">
+          <div className="self-center chip bg-green-500">
             <div className="flex items-center gap-2 text-white">
               <CheckCircle size={18} />
               {success}
@@ -70,7 +71,7 @@ export const SignUp = () => {
           </div>
         )}
         {error && (
-          <div className="self-center text-sm bg-red-500 rounded-md p-1 px-2.5">
+          <div className="self-center chip bg-red-500">
             <div className="flex items-center gap-2 text-white">
               <CircleX size={18} />
               {error}

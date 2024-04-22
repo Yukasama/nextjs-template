@@ -1,4 +1,4 @@
-import LogoutButton from '@/components/logout-button'
+import { LogoutButton } from '@/components/logout-button'
 import { buttonVariants } from '@/components/ui/button'
 import { getUser } from '@/lib/auth'
 import Link from 'next/link'

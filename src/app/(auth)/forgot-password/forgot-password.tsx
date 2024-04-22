@@ -17,16 +17,20 @@ import { CheckCircle, CircleX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useMutation } from '@tanstack/react-query'
+import { forgotPassword } from '@/actions/forgot-password'
 
 export default function ForgotPassword() {
   const [error, setError] = useState('')
   const [sent, setSent] = useState('')
+
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: { email: '' },
   })
 
   const { mutate: sendMail, isPending } = useMutation({
+    mutationFn: async () =>
+      await forgotPassword({ email: form.getValues('email') }),
     onError: () => setError('Email could not be sent.'),
     onSuccess: () => setSent('Reset Email successfully sent.'),
   })
@@ -34,7 +38,7 @@ export default function ForgotPassword() {
   return (
     <div className="f-col gap-4">
       {sent && (
-        <div className="self-center text-sm bg-green-500 rounded-md p-1 px-2.5">
+        <div className="self-center chip bg-green-500">
           <div className="flex items-center gap-2 text-white">
             <CheckCircle size={18} />
             {sent}
@@ -42,18 +46,17 @@ export default function ForgotPassword() {
         </div>
       )}
       {error && (
-        <div className="self-center text-sm bg-red-500 rounded-md p-1 px-2.5">
+        <div className="self-center chip bg-red-500">
           <div className="flex items-center gap-2 text-white">
             <CircleX size={18} />
             {error}
           </div>
         </div>
       )}
-
       {!sent && (
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(() => sendMail(form.getValues().email))}
+            onSubmit={form.handleSubmit(() => sendMail())}
             className="gap-4 f-col"
           >
             <FormField
@@ -79,7 +82,6 @@ export default function ForgotPassword() {
           </form>
         </Form>
       )}
-
       <div className="f-box gap-1.5 text-sm">
         <p className="text-zinc-400">
           {sent ? 'Password successfully changed?' : 'Already signed up?'}

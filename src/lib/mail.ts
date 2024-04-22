@@ -2,16 +2,23 @@ import 'server-only'
 import { env } from '@/env.mjs'
 import { Resend } from 'resend'
 import { logger } from './logger'
+import { SendEmailProps, SendEmailSchema } from './validators/user'
 
 const resend = new Resend(env.RESEND_API_KEY)
 const domain = process.env.VERCEL_URL
 
-interface Props {
-  email: string
-  token: string
-}
+/**
+ * Send a password reset email to given email.
+ * @param values `SendEmailSchema` validator
+ */
+export const sendPasswordResetEmail = async (values: SendEmailProps) => {
+  const validatedFields = SendEmailSchema.safeParse(values)
+  if (!validatedFields.success) {
+    throw new Error('Invalid fields.')
+  }
 
-export const sendPasswordResetEmail = async ({ email, token }: Props) => {
+  const { email, token } = validatedFields.data
+
   const resetLink = `${domain}/auth/new-password?token=${token}`
 
   await resend.emails.send({
@@ -21,10 +28,21 @@ export const sendPasswordResetEmail = async ({ email, token }: Props) => {
     html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
   })
 
-  logger.info('sendPasswordResetEmail (success): email=%s', email)
+  logger.info('sendPasswordResetEmail: email=%s', email)
 }
 
-export const sendVerificationEmail = async ({ email, token }: Props) => {
+/**
+ * Send a verification email to given email.
+ * @param values `SendEmailSchema` validator
+ */
+export const sendVerificationEmail = async (values: SendEmailProps) => {
+  const validatedFields = SendEmailSchema.safeParse(values)
+  if (!validatedFields.success) {
+    throw new Error('Invalid fields.')
+  }
+
+  const { email, token } = validatedFields.data
+
   const confirmLink = `${domain}/auth/new-verification?token=${token}`
 
   await resend.emails.send({
@@ -34,5 +52,5 @@ export const sendVerificationEmail = async ({ email, token }: Props) => {
     html: `<p>Click <a href="${confirmLink}">here</a> to confirm your email.</p>`,
   })
 
-  logger.info('sendVerificationEmail (success): email=%s', email)
+  logger.info('sendVerificationEmail: email=%s', email)
 }

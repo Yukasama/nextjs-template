@@ -1,51 +1,18 @@
 /* eslint-disable unicorn/no-null */
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { db } from '@/lib/db'
-import { getUserByEmail, getUserById } from './data/user'
-import GitHub from 'next-auth/providers/github'
-import Google from 'next-auth/providers/google'
+import { getUserById } from './data/user'
 import NextAuth from 'next-auth'
-import Credentials from 'next-auth/providers/credentials'
-import { SignInSchema } from './validators/user'
-import Resend from 'next-auth/providers/resend'
-import { logger } from './logger'
-import bcrypt from 'bcryptjs'
+import { authConfig } from '@/config/auth'
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth({
   adapter: PrismaAdapter(db),
   session: { strategy: 'jwt' },
-  providers: [
-    Google,
-    GitHub,
-    Resend,
-    Credentials({
-      authorize: async (credentials) => {
-        const validatedFields = SignInSchema.safeParse(credentials)
-
-        if (validatedFields.success) {
-          const { email, password } = validatedFields.data
-          logger.info('authorize (attempt): email=%s', email)
-
-          const user = await getUserByEmail({ email })
-          if (!user?.hashedPassword) {
-            return null
-          }
-
-          const passwordsMatch = await bcrypt.compare(
-            password,
-            user.hashedPassword
-          )
-
-          if (passwordsMatch) {
-            logger.info('authorize (success): email=%s', email)
-            return user
-          }
-        }
-
-        return null
-      },
-    }),
-  ],
   callbacks: {
     session({ token, session }) {
       if (token.sub && session.user) {
@@ -75,6 +42,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return token
     },
   },
+  ...authConfig,
 })
 
 export const getUser = async () => {

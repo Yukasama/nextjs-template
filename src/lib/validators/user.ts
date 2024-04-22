@@ -1,4 +1,4 @@
-import { object, string, infer } from 'zod'
+import { object, string, z } from 'zod'
 
 const EMAIL_MESSAGE = 'Please enter a valid email.'
 const PASSWORD_MESSAGE = 'Password must contain 11 or more characters.'
@@ -39,6 +39,15 @@ export const ResetPasswordSchema = object({
   token: string(),
 })
 
+export const VerifyEmailSchema = object({
+  token: string(),
+})
+
+export const SendEmailSchema = object({
+  email: string().email(EMAIL_MESSAGE),
+  token: string(),
+})
+
 export const NewPasswordSchema = object({
   password: string().min(11, PASSWORD_MESSAGE),
   confPassword: string(),
@@ -47,8 +56,12 @@ export const NewPasswordSchema = object({
   path: ['confPassword'],
 })
 
-export type CreateUserProps = infer<typeof CreateUserSchema>
-
-export type UserUpdateProps = infer<typeof UserUpdateSchema>
-
-export type ResetPasswordProps = infer<typeof ResetPasswordSchema>
+export type SignInProps = z.infer<typeof SignInSchema>
+export type SignUpProps = z.infer<typeof SignUpSchema>
+export type CreateUserProps = z.infer<typeof CreateUserSchema>
+export type UserUpdateProps = z.infer<typeof UserUpdateSchema>
+export type ForgotPasswordProps = z.infer<typeof ForgotPasswordSchema>
+export type ResetPasswordProps = z.infer<typeof ResetPasswordSchema>
+export type VerifyEmailProps = z.infer<typeof VerifyEmailSchema>
+export type SendEmailProps = z.infer<typeof SendEmailSchema>
+export type NewPasswordProps = z.infer<typeof NewPasswordSchema>

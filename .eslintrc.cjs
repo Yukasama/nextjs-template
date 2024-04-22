@@ -11,6 +11,14 @@ module.exports = {
   rules: {
     curly: 'warn',
     'unicorn/prevent-abbreviations': 'off',
+    '@typescript-eslint/no-misused-promises': [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
   },
   plugins: [
     '@typescript-eslint',

@@ -9,7 +9,6 @@ import {
   FormProvider,
   useFormContext,
 } from 'react-hook-form'
-
 import { cn } from '@/lib/utils'
 import { Label } from '@/components/ui/label'
 
@@ -112,9 +111,7 @@ const FormControl = React.forwardRef<
       ref={ref}
       id={formItemId}
       aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
+        error ? `${formDescriptionId} ${formMessageId}` : `${formDescriptionId}`
       }
       aria-invalid={!!error}
       {...props}
@@ -148,7 +145,7 @@ const FormMessage = React.forwardRef<
   const body = error ? String(error?.message) : children
 
   if (!body) {
-    return null
+    return
   }
 
   return (
