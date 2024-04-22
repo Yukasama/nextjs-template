@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { AuthCard } from '../auth-card'
 import { NewPassword } from './new-password'
 
@@ -9,7 +10,9 @@ export default function Page() {
       header="Reset your Password"
       subHeader="This will replace your old password."
     >
-      <NewPassword />
+      <Suspense fallback={<p>Loading...</p>}>
+        <NewPassword />
+      </Suspense>
     </AuthCard>
   )
 }

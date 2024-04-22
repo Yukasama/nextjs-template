@@ -21,6 +21,7 @@ import { resetPassword } from '@/actions/reset-password'
 
 export const NewPassword = () => {
   const [error, setError] = useState('')
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token') ?? ''
