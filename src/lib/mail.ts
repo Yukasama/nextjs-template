@@ -1,4 +1,5 @@
-import 'server-only'
+'use server'
+
 import { env } from '@/env.mjs'
 import { Resend } from 'resend'
 import { logger } from './logger'

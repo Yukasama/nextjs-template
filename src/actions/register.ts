@@ -17,7 +17,7 @@ export const register = async (values: CreateUserProps) => {
   const { email, password } = await CreateUserSchema.parseAsync(values)
   logger.info('register (attempt): email=%s password=%s', email, password)
 
-  const existingUser = await db.user.count({
+  const existingUser = await db.user.findFirst({
     where: { email },
   })
 

@@ -2,9 +2,9 @@ name: Nextjs-Template CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 env:
   AUTH_SECRET: secret
@@ -17,27 +17,27 @@ jobs:
         node-version: [20]
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v3
-      with:
-        version: 8
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
-        
-    - name: Install dependencies
-      run: pnpm install
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
-    - name: Build
-      run: pnpm run build
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: Lint with ESLint
-      run: pnpm run eslint
+      - name: Build
+        run: pnpm run build
 
-    - name: Run Tests
-      run: pnpm t
+      - name: Lint with ESLint
+        run: pnpm run eslint
 
-    - name: Check Formatting with Prettier
-      run: pnpm run prettier -- --check
+      - name: Run Tests
+        run: pnpm t
+
+      - name: Check Formatting with Prettier
+        run: pnpm run prettier -- --check
