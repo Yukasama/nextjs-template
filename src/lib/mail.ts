@@ -20,7 +20,7 @@ export const sendPasswordResetEmail = async (values: SendEmailProps) => {
 
   const { email, token } = validatedFields.data
 
-  const resetLink = `${domain}/auth/new-password?token=${token}`
+  const resetLink = `${domain}/new-password?token=${token}`
 
   await resend.emails.send({
     from: env.EMAIL_FROM,

@@ -1,9 +1,9 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRightCircle, CircleX } from 'lucide-react'
+import { ArrowRightCircle } from 'lucide-react'
 import {
   Form,
   FormControl,
@@ -18,11 +18,12 @@ import { NewPasswordSchema } from '@/lib/validators/user'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { resetPassword } from '@/actions/reset-password'
+import { Chip } from '@/components/ui/chip'
 
 export const NewPassword = () => {
   const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
-  const router = useRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token') ?? ''
 
@@ -41,8 +42,8 @@ export const NewPassword = () => {
         token,
       })
     },
-    onError: () => setError('Password could not be updated.'),
-    onSuccess: () => router.push('/'),
+    onError: () => setError('Password could not be reset.'),
+    onSuccess: () => setSuccess('Password successfully reset.'),
   })
 
   return (
@@ -51,14 +52,8 @@ export const NewPassword = () => {
         onSubmit={form.handleSubmit(() => newPassword())}
         className="gap-3 f-col"
       >
-        {error && (
-          <div className="self-center text-sm bg-red-500 rounded-md p-1 px-2.5">
-            <div className="flex items-center gap-2 text-white">
-              <CircleX size={18} />
-              {error}
-            </div>
-          </div>
-        )}
+        {error && <Chip message={error} isError />}
+        {success && <Chip message={success} />}
         <FormField
           control={form.control}
           name="password"

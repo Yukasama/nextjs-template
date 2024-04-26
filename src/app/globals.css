@@ -57,7 +57,7 @@
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
@@ -84,5 +84,8 @@
   }
   .chip {
     @apply text-sm rounded-md p-1 px-2.5;
+  }
+  .fixed-layout {
+    @apply fixed left-0 top-0 z-20 h-screen w-screen bg-background;
   }
 }

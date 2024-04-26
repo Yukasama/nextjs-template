@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { CheckCircle, CircleX } from 'lucide-react'
 import {
   Form,
   FormControl,
@@ -19,6 +18,7 @@ import { useMutation } from '@tanstack/react-query'
 import { register } from '@/actions/register'
 import { useRouter } from 'next/navigation'
 import { defaultLoginRedirect } from '@/config/routes'
+import { Chip } from '@/components/ui/chip'
 
 export const SignUp = () => {
   const [error, setError] = useState<string | undefined>('')
@@ -62,22 +62,8 @@ export const SignUp = () => {
         onSubmit={form.handleSubmit(() => createUser())}
         className="gap-3 f-col"
       >
-        {success && (
-          <div className="self-center chip bg-green-500">
-            <div className="flex items-center gap-2 text-white">
-              <CheckCircle size={18} />
-              {success}
-            </div>
-          </div>
-        )}
-        {error && (
-          <div className="self-center chip bg-red-500">
-            <div className="flex items-center gap-2 text-white">
-              <CircleX size={18} />
-              {error}
-            </div>
-          </div>
-        )}
+        {error && <Chip message={error} isError />}
+        {success && <Chip message={success} />}
         <FormField
           control={form.control}
           name="email"

@@ -5,7 +5,7 @@ export default function Layout({
   children,
 }: Readonly<React.PropsWithChildren>) {
   return (
-    <div className="fixed f-col xl:grid grid-cols-2 left-0 top-0 z-20 h-screen w-screen ">
+    <div className="fixed-layout f-col xl:grid grid-cols-2">
       <BackButton />
       <div className="xl:f-col xl:f-box gap-4 hidden">
         <CompanyLogo px={200} />
