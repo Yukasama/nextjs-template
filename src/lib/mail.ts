@@ -6,7 +6,7 @@ import { logger } from './logger'
 import { SendEmailProps, SendEmailSchema } from './validators/user'
 
 const resend = new Resend(env.RESEND_API_KEY)
-const domain = process.env.VERCEL_URL
+const domain = 'localhost:3000'
 
 /**
  * Send a password reset email to given email.
@@ -44,7 +44,7 @@ export const sendVerificationEmail = async (values: SendEmailProps) => {
 
   const { email, token } = validatedFields.data
 
-  const confirmLink = `${domain}/auth/new-verification?token=${token}`
+  const confirmLink = `${domain}/verify-email?token=${token}`
 
   await resend.emails.send({
     from: env.EMAIL_FROM,

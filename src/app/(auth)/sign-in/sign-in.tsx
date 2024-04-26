@@ -47,7 +47,7 @@ export const SignIn = () => {
         return setError(data.error)
       }
       if (data && 'success' in data) {
-        router.push('/')
+        router.push('/dashboard')
       }
     },
     onError: () => toast.error('We have trouble signing you in.'),

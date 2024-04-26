@@ -7,6 +7,7 @@ import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 import { CreateUserProps, CreateUserSchema } from '@/lib/validators/user'
 import { saltAndHashPassword } from '@/utils/password'
+import { signIn } from '@/lib/auth'
 
 /**
  * Register a new user with email and password, send a verification email.
@@ -44,6 +45,12 @@ export const register = async (values: CreateUserProps) => {
       token: verificationToken.token,
     }),
   ])
+
+  await signIn('credentials', {
+    email,
+    password,
+    redirect: false,
+  })
 
   logger.info('register (success): email=%s', email)
   return { success: 'Confirmation email sent.' }

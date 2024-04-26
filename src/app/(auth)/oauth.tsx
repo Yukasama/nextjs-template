@@ -13,7 +13,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 const providerIcons = {
   google: <Icons.Google className="h-[18px]" />,
-  github: <Icons.Github className="dark:invert h-[18px]" />,
+  github: <Icons.Github className="h-[18px]" />,
 }
 
 /**

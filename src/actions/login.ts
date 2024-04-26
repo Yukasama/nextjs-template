@@ -33,7 +33,7 @@ export const login = async (values: SignInProps) => {
     await signIn('credentials', {
       email,
       password,
-      redirectTo: '/',
+      redirect: false,
     })
 
     logger.info('login (success): email=%s', email)
