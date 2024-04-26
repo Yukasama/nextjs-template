@@ -40,7 +40,7 @@ describe('register', () => {
       email: mockLogin.email,
       token: 'verification_token',
     })
-    expect(result).toEqual({ success: 'Confirmation email sent!' })
+    expect(result).toEqual({ success: 'Confirmation email sent.' })
   })
 
   it('should reject registration if the email is already registered', async () => {

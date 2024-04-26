@@ -13,15 +13,15 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { ForgotPasswordSchema } from '@/lib/validators/user'
-import { CheckCircle, CircleX } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useMutation } from '@tanstack/react-query'
 import { forgotPassword } from '@/actions/forgot-password'
+import { Chip } from '@/components/ui/chip'
 
 export default function ForgotPassword() {
   const [error, setError] = useState('')
-  const [sent, setSent] = useState('')
+  const [success, setSuccess] = useState('')
 
   const form = useForm({
     resolver: zodResolver(ForgotPasswordSchema),
@@ -32,28 +32,14 @@ export default function ForgotPassword() {
     mutationFn: async () =>
       await forgotPassword({ email: form.getValues('email') }),
     onError: () => setError('Email could not be sent.'),
-    onSuccess: () => setSent('Reset Email successfully sent.'),
+    onSuccess: () => setSuccess('Reset Email successfully sent.'),
   })
 
   return (
     <div className="f-col gap-4">
-      {sent && (
-        <div className="self-center chip bg-green-500">
-          <div className="flex items-center gap-2 text-white">
-            <CheckCircle size={18} />
-            {sent}
-          </div>
-        </div>
-      )}
-      {error && (
-        <div className="self-center chip bg-red-500">
-          <div className="flex items-center gap-2 text-white">
-            <CircleX size={18} />
-            {error}
-          </div>
-        </div>
-      )}
-      {!sent && (
+      {error && <Chip message={error} isError />}
+      {success && <Chip message={success} />}
+      {!success && (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(() => sendMail())}
@@ -84,10 +70,10 @@ export default function ForgotPassword() {
       )}
       <div className="f-box gap-1.5 text-sm">
         <p className="text-zinc-400">
-          {sent ? 'Password successfully changed?' : 'Already signed up?'}
+          {success ? 'Password successfully changed?' : 'Already signed up?'}
         </p>
         <Link href="/sign-in" className="font-medium">
-          {sent ? 'Head to Login.' : 'Sign In.'}
+          {success ? 'Head to Login.' : 'Sign In.'}
         </Link>
       </div>
     </div>
