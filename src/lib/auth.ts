@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-null */
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { db } from '@/lib/db'
-import { getUserById } from './data/user'
+import { getUserById } from '../utils/user'
 import NextAuth from 'next-auth'
 import { authConfig } from '@/config/auth'
 

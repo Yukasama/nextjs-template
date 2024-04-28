@@ -16,10 +16,10 @@ import { ForgotPasswordSchema } from '@/lib/validators/user'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useMutation } from '@tanstack/react-query'
-import { forgotPassword } from '@/actions/forgot-password'
+import { forgotPassword } from '@/actions/auth/forgot-password'
 import { Chip } from '@/components/ui/chip'
 
-export default function ForgotPassword() {
+export const ForgotPasswordForm = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 

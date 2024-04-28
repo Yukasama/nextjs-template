@@ -8,7 +8,6 @@ const config: Config.InitialOptions = {
   roots: ['<rootDir>/__tests__', '<rootDir>/src'],
   testRegex: '__tests__/.*.test.ts$',
   transform: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     '\\.test\\.m?ts$': [
       'ts-jest',
       {
@@ -17,9 +16,8 @@ const config: Config.InitialOptions = {
       },
     ],
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'], // File extensions to process
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    // Mock static file imports (images, styles, etc.)
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   // collectCoverage: true,

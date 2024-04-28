@@ -21,6 +21,5 @@ export const env = createEnv({
     AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
     EMAIL_FROM: process.env.EMAIL_FROM,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
-    FMP_API_KEY: process.env.FMP_API_KEY,
   },
 })

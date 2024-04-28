@@ -1,9 +1,9 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
-import { toast } from 'sonner'
+import { useForm } from 'react-hook-form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -12,61 +12,58 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { SignInSchema } from '@/lib/validators/user'
+import { SignUpSchema } from '@/lib/validators/user'
 import { useState } from 'react'
-import { login } from '@/actions/login'
 import { useMutation } from '@tanstack/react-query'
-import { CircleX } from 'lucide-react'
+import { register } from '@/actions/auth/register'
 import { useRouter } from 'next/navigation'
+import { defaultLoginRedirect } from '@/config/routes'
+import { Chip } from '@/components/ui/chip'
 
-export const SignIn = () => {
+export const SignUpForm = () => {
   const [error, setError] = useState<string | undefined>('')
+  const [success, setSuccess] = useState('')
 
   const router = useRouter()
 
   const form = useForm({
-    resolver: zodResolver(SignInSchema),
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       email: '',
       password: '',
+      confPassword: '',
     },
   })
 
-  const { mutate: signIn, isPending } = useMutation({
+  const { mutate: createUser, isPending } = useMutation({
     mutationFn: async () => {
-      return await login({
+      return await register({
         email: form.getValues('email'),
         password: form.getValues('password'),
       })
     },
     onSettled: (data) => {
       setError('')
+      setSuccess('')
+
       if (data && 'error' in data) {
         return setError(data.error)
       }
       if (data && 'success' in data) {
-        router.push('/dashboard')
+        router.push(defaultLoginRedirect)
       }
     },
-    onError: () => toast.error('We have trouble signing you in.'),
+    onError: () => setError('We currently have trouble signing you up.'),
   })
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(() => signIn())}
+        onSubmit={form.handleSubmit(() => createUser())}
         className="gap-3 f-col"
       >
-        {error && (
-          <div className="self-center chip bg-red-500">
-            <div className="flex items-center gap-2 text-white">
-              <CircleX size={18} />
-              {error}
-            </div>
-          </div>
-        )}
+        {error && <Chip message={error} isError />}
+        {success && <Chip message={success} />}
         <FormField
           control={form.control}
           name="email"
@@ -103,14 +100,30 @@ export const SignIn = () => {
             </FormItem>
           )}
         />
-        <Link
-          href="/forgot-password"
-          className="text-[13px] text-end hover:underline underline-offset-3"
+        <FormField
+          control={form.control}
+          name="confPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  disabled={isPending}
+                  placeholder="Confirm your Password"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          className="text-[15px] mt-1 font-semibold"
+          isLoading={isPending}
+          disabled={isPending}
         >
-          Forgot Password?
-        </Link>
-        <Button className="mt-1" disabled={isPending} isLoading={isPending}>
-          Sign in with Email
+          Sign up with Email
         </Button>
       </form>
     </Form>

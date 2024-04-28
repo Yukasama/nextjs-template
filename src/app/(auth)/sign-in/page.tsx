@@ -1,19 +1,19 @@
 import { OAuth } from '../oauth'
-import { SignIn } from './sign-in'
+import { SignInForm } from './sign-in-form'
 import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 import { AuthCard } from '../auth-card'
 
 export const metadata = { title: 'Sign In' }
 
-export default function Page() {
+export default function SignIn() {
   return (
     <AuthCard
       header="Sign in to your account"
       subHeader="Enter your credentials to sign in to your account."
     >
       <div className="f-col gap-4">
-        <SignIn />
+        <SignInForm />
         <div className="flex justify-between items-center gap-2">
           <Separator className="flex-1" />
           <p className="text-xs text-center text-zinc-400">OR CONTINUE WITH</p>

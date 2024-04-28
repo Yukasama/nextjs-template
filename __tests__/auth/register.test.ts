@@ -1,4 +1,4 @@
-import { register } from '@/actions/register'
+import { register } from '@/actions/auth/register'
 import { sendVerificationEmail } from '@/lib/mail'
 
 // Mocking the necessary utilities and DB calls

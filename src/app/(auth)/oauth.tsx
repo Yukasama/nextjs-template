@@ -2,7 +2,7 @@
 
 import { signIn } from 'next-auth/react'
 import { toast } from 'sonner'
-import { capitalize, cn } from '@/lib/utils'
+import { capitalize, cn } from '@/utils/utils'
 import { Button } from '@/components/ui/button'
 import { Icons } from '@/components/icons'
 import { useMutation } from '@tanstack/react-query'

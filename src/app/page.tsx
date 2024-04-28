@@ -12,7 +12,7 @@ export default async function Home() {
       {user ? (
         <LogoutButton />
       ) : (
-        <Link href="/sign-in" className={buttonVariants()}>
+        <Link href="/sign-in" className={buttonVariants({ size: 'sm' })}>
           Sign In
         </Link>
       )}

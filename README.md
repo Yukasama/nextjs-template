@@ -22,10 +22,15 @@ pnpm run dev
 
 ## Features
 
+- Next.js 14
 - Next-Auth v5 (Authentication)
 - SQLite (Dev DB)
 - Prisma (ORM)
 - Tailwind
+- Dark Theme (next-themes)
 - Resend (Mailing)
 - Testing (Jest)
 - Logging (Pino)
+- Validation (Zod)
+- Formatting (Prettier)
+- Linting (ESLint + SonarQube)

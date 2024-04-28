@@ -17,11 +17,11 @@ import { Input } from '@/components/ui/input'
 import { NewPasswordSchema } from '@/lib/validators/user'
 import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { resetPassword } from '@/actions/reset-password'
+import { resetPassword } from '@/actions/auth/reset-password'
 import { Chip } from '@/components/ui/chip'
 import { AuthCard } from '../(auth)/auth-card'
 
-export const NewPassword = () => {
+export const ResetPasswordForm = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 

@@ -8,6 +8,12 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// Production
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 model Account {
   id                String  @id @default(cuid())
   userId            String

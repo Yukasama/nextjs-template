@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { getUserByEmail } from '@/lib/data/user'
+import { getUserByEmail } from '@/utils/user'
 import GitHub from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
 import { NextAuthConfig } from 'next-auth'

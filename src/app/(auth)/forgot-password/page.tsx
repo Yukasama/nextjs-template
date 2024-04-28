@@ -1,15 +1,15 @@
 import { AuthCard } from '../auth-card'
-import ForgotPassword from './forgot-password'
+import { ForgotPasswordForm } from './forgot-password-form'
 
 export const metadata = { title: 'Forgot Password' }
 
-export default function page() {
+export default function ForgotPassword() {
   return (
     <AuthCard
       header="Forgot your password?"
       subHeader="Enter your email to receive a password reset link."
     >
-      <ForgotPassword />
+      <ForgotPasswordForm />
     </AuthCard>
   )
 }

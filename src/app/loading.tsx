@@ -1,9 +1,9 @@
-import { Loader2 } from 'lucide-react'
+import { Loader } from 'lucide-react'
 
 export default function Loading() {
   return (
-    <div className="f-box">
-      <Loader2 className="mt-[400px]" />
+    <div className="f-box gap-2 text-zinc-400 mt-[400px]">
+      <Loader className="animate-spin" size={20} />
       Loading...
     </div>
   )

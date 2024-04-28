@@ -1,6 +1,6 @@
 'use server'
 
-import { getUserByEmail } from '@/lib/data/user'
+import { getUserByEmail } from '@/utils/user'
 import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 import { SignInProps, SignInSchema } from '@/lib/validators/user'
