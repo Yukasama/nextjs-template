@@ -1,13 +1,19 @@
-import pino from 'pino'
+import { env } from '@/env.mjs';
+import pino from 'pino';
 
-const isServer = typeof window === 'undefined'
+const isProduction = env.NODE_ENV === 'production';
 
 export const logger = pino({
-  enabled: isServer,
-  level: process.env.LOG_LEVEL ?? 'info',
-  // prettyPrint: isServer && {
-  //   colorize: true,
-  //   levelFirst: true,
-  //   translateTime: 'yyyy-dd-mm, h:MM:ss TT',
-  // },
-})
+  base: {
+    pid: false,
+  },
+  level: isProduction ? 'info' : env.LOG_LEVEL ?? 'info',
+  transport: isProduction
+    ? undefined
+    : {
+        options: {
+          colorize: true,
+        },
+        target: 'pino-pretty',
+      },
+});

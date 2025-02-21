@@ -1,21 +1,10 @@
-import { LogoutButton } from '@/components/logout-button'
-import { buttonVariants } from '@/components/ui/button'
-import { getUser } from '@/lib/auth'
-import Link from 'next/link'
+import { ThemeToggle } from '../features/theme/theme-toggle';
 
-export default async function Home() {
-  const user = await getUser()
-
+export default function Home() {
   return (
     <div>
-      {JSON.stringify(user)}
-      {user ? (
-        <LogoutButton />
-      ) : (
-        <Link href="/sign-in" className={buttonVariants({ size: 'sm' })}>
-          Sign In
-        </Link>
-      )}
+      <p>Nextjs-Template</p>
+      <ThemeToggle />
     </div>
-  )
+  );
 }

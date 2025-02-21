@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  AUTH_SECRET: secret
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -35,9 +32,6 @@ jobs:
 
       - name: Lint with ESLint
         run: pnpm run eslint
-
-      - name: Run Tests
-        run: pnpm t
 
       - name: Check Formatting with Prettier
         run: pnpm run prettier -- --check

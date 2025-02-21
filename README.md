@@ -8,13 +8,7 @@
 pnpm i
 ```
 
-### 2. Setup Prisma ORM
-
-```bash
-pnpm run prisma
-```
-
-### 3. Start server
+### 2. Start server
 
 ```bash
 pnpm run dev
@@ -22,15 +16,12 @@ pnpm run dev
 
 ## Features
 
-- Next.js 14
-- Next-Auth v5 (Authentication)
-- SQLite (Dev DB)
-- Prisma (ORM)
-- Tailwind + shadcn-ui (Styling)
+- Next.js 15
+- Tailwind v4
 - Dark Theme (next-themes)
-- Resend (Mailer)
-- Jest (Tests)
-- Pino (Logging)
-- Zod (Validation)
-- Prettier (Formatter)
-- ESLint + SonarQube (Linter)
+- End-To-End Tests (Playwright)
+- Logging (Pino)
+- Typesafe Environment Variables (t3-env)
+- Formatting (Prettier)
+- Linting (ESLint + SonarQube)
+- A+ Security Headers (CSP with Nonce)

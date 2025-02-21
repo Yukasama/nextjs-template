@@ -1,37 +1,28 @@
-import NextAuth from 'next-auth'
-import {
-  apiAuthPrefix,
-  authRoutes,
-  defaultLoginRedirect,
-  isPathPrivate,
-} from './config/routes'
-import { authConfig } from '@/config/auth'
+import { NextRequest, NextResponse } from 'next/server';
+import { generateCspHeader } from './config/csp-header';
 
-const { auth } = NextAuth(authConfig)
+export const middleware = (req: NextRequest) => {
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+  const cspHeader = generateCspHeader({ nonce });
 
-export default auth((req) => {
-  const { nextUrl } = req
-  const isLoggedIn = !!req.auth
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-nonce', nonce);
+  requestHeaders.set('Content-Security-Policy', cspHeader);
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix)
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname)
-
-  if (isApiAuthRoute) {
-    return
-  }
-
-  if (isAuthRoute) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL(defaultLoginRedirect, nextUrl))
-    }
-    return
-  }
-
-  if (!isLoggedIn && isPathPrivate(nextUrl.pathname)) {
-    return Response.redirect('http://localhost:3000/sign-in')
-  }
-})
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set('Content-Security-Policy', cspHeader);
+  return response;
+};
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
-}
+  matcher: [
+    {
+      missing: [
+        { key: 'next-router-prefetch', type: 'header' },
+        { key: 'purpose', type: 'header', value: 'prefetch' },
+      ],
+      source:
+        '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    },
+  ],
+};
