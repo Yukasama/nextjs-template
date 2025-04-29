@@ -34,7 +34,7 @@ const eslintConfig = tseslint.config(
   sonarjs.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
-  unicorn.configs['flat/recommended'],
+  unicorn.configs.recommended,
   ...compat.extends('next', 'next/core-web-vitals', 'next/typescript'),
   {
     files: ['**/*.{js,mjs,ts,tsx}'],
@@ -97,10 +97,10 @@ const eslintConfig = tseslint.config(
     },
     settings: {
       'import/resolver': {
-        node: true,
-        typescript: true,
         alwaysTryTypes: true,
+        node: true,
         project: import.meta.url,
+        typescript: true,
       },
       react: {
         version: 'detect',
