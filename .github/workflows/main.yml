@@ -28,10 +28,14 @@ jobs:
         run: pnpm build
 
       - name: Check Formatting with Prettier
-        run: pnpm exec prettier --check .
+        run: |
+          pnpm i prettier
+          prettier --check .
 
       - name: Lint with ESLint
-        run: pnpm lint
+        run: |
+          pnpm i eslint
+          pnpm lint
 
       - name: Check outdated dependencies
         run: pnpm outdated
