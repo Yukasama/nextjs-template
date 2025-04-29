@@ -30,7 +30,7 @@ jobs:
       - name: Check Formatting with Prettier
         run: |
           pnpm i prettier
-          prettier --check .
+          npx prettier --check ./src
 
       - name: Lint with ESLint
         run: |

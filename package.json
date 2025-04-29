@@ -85,7 +85,8 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@vercel/speed-insights",
-      "sharp"
+      "sharp",
+      "unrs-resolver"
     ]
   }
 }
