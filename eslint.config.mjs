@@ -110,9 +110,7 @@ const eslintConfig = tseslint.config(
   {
     ...playwright.configs['flat/recommended'],
     files: ['tests/**'],
-    rules: {
-      ...playwright.configs['flat/recommended'].rules,
-    },
+    rules: playwright.configs['flat/recommended'].rules,
   },
 );
 

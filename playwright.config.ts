@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
-import path, { dirname } from 'node:path';
+import path from 'node:path';
 
-dotenv.config({ path: path.resolve(dirname('/'), '.env') });
+dotenv.config({ path: path.resolve(path.dirname('/'), '.env') });
 
 export default defineConfig({
   forbidOnly: !!process.env.CI,
