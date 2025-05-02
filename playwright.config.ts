@@ -41,7 +41,7 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
-  reporter: process.env.CI ? 'github' : 'html',
+  reporter: process.env.CI ? [['github'], ['html']] : [['html']],
   retries: process.env.CI ? 2 : 0,
   testDir: 'tests',
   use: {
