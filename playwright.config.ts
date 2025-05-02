@@ -12,16 +12,14 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
 
     /* Test against mobile viewports. */
     // {
@@ -45,21 +43,21 @@ export default defineConfig({
   ],
   reporter: process.env.CI ? 'github' : 'html',
   retries: process.env.CI ? 2 : 0,
-  testDir: 'tests/e2e',
+  testDir: 'tests',
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
   },
 
-  workers: 1,
+  /* Run local dev server before starting the tests */
+  webServer: {
+    command: 'npm start',
+    ignoreHTTPSErrors: true,
+    reuseExistingServer: !process.env.CI,
+    stderr: 'pipe',
+    stdout: 'ignore',
+    url: 'http://localhost:3000',
+  },
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'pnpm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !env.CI,
-  //   ignoreHTTPSErrors: true,
-  //   stdout: 'ignore',
-  //   stderr: 'pipe',
-  // },
+  workers: process.env.CI ? 2 : undefined,
 });

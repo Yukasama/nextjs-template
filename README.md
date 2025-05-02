@@ -1,4 +1,4 @@
-# Nextjs Template
+# Next.js Template
 
 ## Installation Steps
 
@@ -25,3 +25,4 @@ pnpm run dev
 - Formatting (Prettier)
 - Linting (ESLint + SonarQube)
 - A+ Security Headers (CSP with Nonce)
+- GitHub Workflows for Linting, Testing, Security
