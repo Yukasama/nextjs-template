@@ -1,17 +1,13 @@
 # Next.js Template
 
-## Installation Steps
-
-### 1. Install packages
+## Preparation
 
 ```bash
-pnpm i
-```
+# Install deps and playwright browsers
+pnpm prepare
 
-### 2. Start server
-
-```bash
-pnpm run dev
+# Start the server
+pnpm dev
 ```
 
 ## Features

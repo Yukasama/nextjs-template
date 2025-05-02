@@ -24,9 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: snyk/actions/setup@master
-      - uses: actions/setup-python@v5
+      - uses: pnpm/action-setup@v4
         with:
-          python-version-file: '.python-version'
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
 
       - name: Snyk Code test
         run: snyk code test --sarif-file-output=snyk.sarif || true
