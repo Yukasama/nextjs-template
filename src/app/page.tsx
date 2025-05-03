@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <div>
-      <p>Next.js Template</p>
+      <h1>Next.js Template</h1>
       <ThemeToggle />
     </div>
   );

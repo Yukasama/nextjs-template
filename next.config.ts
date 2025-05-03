@@ -7,7 +7,6 @@ const nextConfig: NextConfig = {
       headers: [
         {
           key: 'Access-Control-Allow-Origin',
-          // TODO: Change this to the actual domain
           value: 'https://nextjs-template.com',
         },
         {

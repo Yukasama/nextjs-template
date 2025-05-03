@@ -46,13 +46,14 @@ export default defineConfig({
   testDir: 'tests',
   use: {
     baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    screenshot: 'on',
+    trace: 'on',
+    video: 'on',
   },
 
   /* Run local dev server before starting the tests */
   webServer: {
     command: 'npm start',
-    ignoreHTTPSErrors: true,
     reuseExistingServer: !process.env.CI,
     stderr: 'pipe',
     stdout: 'ignore',
