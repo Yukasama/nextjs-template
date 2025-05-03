@@ -20,6 +20,10 @@ dev.db-journal
 .DS_Store
 *.pem
 
+# log
+log/
+app.log
+
 # debug
 npm-debug.log*
 yarn-debug.log*

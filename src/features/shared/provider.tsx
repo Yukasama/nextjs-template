@@ -1,6 +1,7 @@
 'use client';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { getQueryClient } from '@/lib/query-client';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'next-themes';
 import type { PropsWithChildren } from 'react';
 
@@ -9,13 +10,7 @@ interface Props extends PropsWithChildren {
 }
 
 export const Provider = ({ children, nonce }: Readonly<Props>) => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 1000 * 10,
-      },
-    },
-  });
+  const queryClient = getQueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
