@@ -13,6 +13,28 @@ pnpm exec playwright install
 pnpm dev
 ```
 
+## Use Docker
+
+```bash
+# Build Docker image
+docker build -t nextjs-template:prod .
+
+# Start with Docker compose
+cd resources/deploy
+docker compose up
+```
+
+## SonarQube Scan
+
+```bash
+# Start SonarQube image
+cd resources/sonarqube
+docker compose up
+
+# Do sonar scan
+pnpm sonar
+```
+
 ## Features
 
 - Next.js 15
