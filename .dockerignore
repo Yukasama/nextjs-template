@@ -1,0 +1,18 @@
+# Ignore everything by default
+**
+
+# Allow essential project files
+!package.json
+!pnpm-lock.yaml
+!next.config.js
+!public/
+!src/
+!.env.production
+
+# Optional: if you use custom server
+!server.js
+
+# Required for build
+!.next/
+!.dockerignore
+!Dockerfile
