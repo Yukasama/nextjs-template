@@ -19,6 +19,7 @@ pnpm dev
 - Logging (Pino)
 - Typesafe Environment Variables (t3-env)
 - Formatting (Prettier)
-- Linting (ESLint + SonarQube)
+- Linting (ESLint 9 + SonarQube)
 - A+ Security Headers (CSP with Nonce)
-- GitHub Workflows for Linting, Testing, Security
+- Docker Ready
+- CI/CD with GitHub Actions for Linting, Testing, Security
