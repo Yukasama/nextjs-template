@@ -24,7 +24,10 @@ FROM base AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY next.config.js ./
+COPY --from=deps /app/package.json /app/pnpm-lock.yaml ./
+
+COPY next.config.ts ./
+COPY tsconfig.json ./
 COPY public ./public
 COPY src ./src
 

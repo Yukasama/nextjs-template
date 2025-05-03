@@ -33,6 +33,7 @@ const nextConfig: NextConfig = {
       source: '/(.*)',
     },
   ],
+  output: 'standalone',
   serverExternalPackages: ['pino', 'pino-pretty'],
 };
 
