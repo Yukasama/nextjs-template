@@ -1,0 +1,56 @@
+ARG NODE_VERSION=22
+FROM node:${NODE_VERSION}-slim AS base
+
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="${PNPM_HOME}:${PATH}"
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# --------------------------------------------------------
+# Stage 1: Install dependencies
+# --------------------------------------------------------
+FROM base AS deps
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY package.json pnpm-lock.yaml ./
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
+
+# --------------------------------------------------------
+# Stage 2: Build the application
+# --------------------------------------------------------
+FROM base AS builder
+WORKDIR /app
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN pnpm build
+
+# --------------------------------------------------------
+# Stage 3: Run the application
+# --------------------------------------------------------
+FROM node:${NODE_VERSION}-slim AS runner
+WORKDIR /app
+
+# Create a non-root user
+RUN groupadd -r nextjs && useradd --no-log-init -r -g nextjs nextjs
+
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    NODE_NO_WARNINGS=1 \
+    NODE_OPTIONS=--max-old-space-size=2048 \
+    NEXT_SHARP_PATH=/app/node_modules/sharp
+
+COPY --from=builder /app/public ./public
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+
+# Drop privileges and expose only needed port
+USER nextjs
+EXPOSE 3000
+
+CMD ["node", "server.js"]
