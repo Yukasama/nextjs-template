@@ -3,8 +3,11 @@
 ## Preparation
 
 ```bash
-# Install deps and playwright browsers
-pnpm prepare
+# Install dependencies
+pnpm i
+
+# Install playwright browsers
+pnpm exec playwright install
 
 # Start the server
 pnpm dev
