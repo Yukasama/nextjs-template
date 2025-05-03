@@ -1,6 +1,6 @@
 services:
   nextjs:
-    image: nextjs-template:prod # or use ghcr.io/yukasama/nextjs-template:latest
+    image: ghcr.io/yukasama/nextjs-template:latest # Use the latest image from GitHub Container Registry
     restart: unless-stopped
     ports:
       - '3000:3000'

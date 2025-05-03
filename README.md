@@ -31,7 +31,7 @@ docker compose up
 cd resources/sonarqube
 docker compose up
 
-# Do sonar scan
+# Do sonar scan (from root directory)
 pnpm sonar
 ```
 
