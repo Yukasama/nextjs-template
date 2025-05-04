@@ -23,6 +23,11 @@ RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
 FROM base AS builder
 WORKDIR /app
 
+ARG NEXT_PUBLIC_HOST_URL
+
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json /app/pnpm-lock.yaml ./
 
@@ -31,9 +36,9 @@ COPY tsconfig.json ./
 COPY public ./public
 COPY src ./src
 
-ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm build
-
+RUN --mount=type=secret,id=private_api_key,env=PRIVATE_EXAMPLE_API_KEY \
+    SKIP_ENV_VALIDATION=1 pnpm build
+  
 # --------------------------------------------------------
 # Stage 3: Run the application
 # --------------------------------------------------------
@@ -58,4 +63,4 @@ COPY --from=builder /app/.next/static ./.next/static
 USER nextjs
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["server.js"]

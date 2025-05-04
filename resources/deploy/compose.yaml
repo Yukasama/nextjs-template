@@ -1,11 +1,17 @@
 services:
   nextjs:
-    image: ghcr.io/yukasama/nextjs-template:latest # Use the latest image from GitHub Container Registry
+    build:
+      context: ../..
+      args:
+        NEXT_PUBLIC_HOST_URL: http://localhost:3000
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - '3000:3000'
     environment:
       - NODE_ENV=production
+    env_file:
+      - ../../.env
     cap_drop:
       - ALL
     cap_add:
