@@ -35,6 +35,9 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Build application
+        env:
+          NEXT_PUBLIC_HOST_URL: ${{ secrets.NEXT_PUBLIC_HOST_URL }}
+          PRIVATE_EXAMPLE_API_KEY: ${{ secrets.PRIVATE_EXAMPLE_API_KEY }}
         run: pnpm build
 
   lint:

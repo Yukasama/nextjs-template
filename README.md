@@ -13,28 +13,6 @@ pnpm exec playwright install
 pnpm dev
 ```
 
-## Use Docker
-
-```bash
-# Build Docker image
-docker build -t nextjs-template:prod .
-
-# Start with Docker compose
-cd resources/deploy
-docker compose up
-```
-
-## SonarQube Scan
-
-```bash
-# Start SonarQube image
-cd resources/sonarqube
-docker compose up
-
-# Do sonar scan (from root directory)
-pnpm sonar
-```
-
 ## Features
 
 - Next.js 15
@@ -48,3 +26,37 @@ pnpm sonar
 - A+ Security Headers (CSP with Nonce)
 - Docker Ready
 - CI/CD with GitHub Actions for Linting, Testing, Security
+
+## Guide
+
+### Use Docker
+
+```bash
+# Build Docker image
+docker build -t nextjs-template:prod .
+
+# Start with Docker compose
+cd resources/deploy
+docker compose up
+```
+
+### SonarQube Scan
+
+```bash
+# Start SonarQube image
+cd resources/sonarqube
+docker compose up
+
+# Do sonar scan (from root directory)
+pnpm sonar
+```
+
+### GitHub Actions
+
+Note: For the CI to work, you have to add the following secrets to your repository:
+
+```bash
+NEXT_PUBLIC_HOST_URL=
+PRIVATE_EXAMPLE_API_KEY=
+```
+
