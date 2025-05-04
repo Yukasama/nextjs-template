@@ -33,7 +33,9 @@ pnpm dev
 
 ```bash
 # Build Docker image
-docker build -t nextjs-template:prod .
+# You have to pass NEXT_PUBLIC_ vars as build arguments
+# Secrets are passed with a secret mount as you can see in the Dockerfile
+docker build -t nextjs-template:prod --build-arg NEXT_PUBLIC_HOST_URL=http://localhost:3000 .
 
 # Start with Docker compose
 cd resources/deploy
