@@ -59,7 +59,6 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Drop privileges and expose only needed port
 USER nextjs
 EXPOSE 3000
 
