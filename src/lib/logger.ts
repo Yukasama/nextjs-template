@@ -15,17 +15,15 @@ if (!fs.existsSync(logDir)) {
 
 const fileStream = pino.destination({ dest: logFile, sync: false });
 
+const baseOptions = {
+  base: { pid: false },
+  level: defaultLogLevel,
+};
+
 export const logger: pino.Logger = isProduction
-  ? pino(
-      {
-        base: { pid: false },
-        level: defaultLogLevel,
-      },
-      fileStream,
-    )
+  ? pino(baseOptions, fileStream)
   : pino({
-      base: { pid: false },
-      level: defaultLogLevel,
+      ...baseOptions,
       transport: {
         targets: [
           {

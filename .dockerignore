@@ -7,13 +7,6 @@
 !next.config.ts
 !public/
 !src/
-!.env.production
-
-# Optional: if you use custom server
-!server.js
 
 # Required for build
-!.next/
-!.dockerignore
 !tsconfig.json
-!Dockerfile

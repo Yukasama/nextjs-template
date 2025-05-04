@@ -1,11 +1,17 @@
 services:
   nextjs:
-    image: nextjs-template:prod # or use ghcr.io/yukasama/nextjs-template:latest
+    build:
+      context: ../..
+      args:
+        NEXT_PUBLIC_HOST_URL: http://localhost:3000
+      dockerfile: Dockerfile
     restart: unless-stopped
     ports:
       - '3000:3000'
     environment:
       - NODE_ENV=production
+    env_file:
+      - ../../.env
     cap_drop:
       - ALL
     cap_add:

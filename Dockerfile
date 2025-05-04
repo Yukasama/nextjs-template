@@ -23,6 +23,12 @@ RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
 FROM base AS builder
 WORKDIR /app
 
+# Has to be provided at build time with --build-arg
+ARG NEXT_PUBLIC_HOST_URL
+
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json /app/pnpm-lock.yaml ./
 
@@ -31,9 +37,11 @@ COPY tsconfig.json ./
 COPY public ./public
 COPY src ./src
 
-ENV NEXT_TELEMETRY_DISABLED=1
-RUN pnpm build
-
+# Mount private API key as a secret
+# Has to be provided at build time with --secret id=private_api_key,required
+RUN --mount=type=secret,id=private_api_key,env=PRIVATE_EXAMPLE_API_KEY \
+    pnpm build
+  
 # --------------------------------------------------------
 # Stage 3: Run the application
 # --------------------------------------------------------
@@ -54,8 +62,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
-# Drop privileges and expose only needed port
 USER nextjs
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["server.js"]
