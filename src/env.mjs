@@ -15,7 +15,7 @@ export const env = createEnv({
   server: {
     LOG_LEVEL: z.string().optional(),
     NODE_ENV: z.string().optional(),
-    PRIVATE_EXAMPLE_API_KEY: z.string(),
+    PRIVATE_EXAMPLE_API_KEY: z.string().min(1),
     SONAR_TOKEN: z.string().optional(),
   },
 });

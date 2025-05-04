@@ -83,6 +83,9 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+    env:
+      NEXT_PUBLIC_HOST_URL: ${{ secrets.NEXT_PUBLIC_HOST_URL }}
+      PRIVATE_EXAMPLE_API_KEY: ${{ secrets.PRIVATE_EXAMPLE_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

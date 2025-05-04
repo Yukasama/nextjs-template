@@ -23,6 +23,7 @@ RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
 FROM base AS builder
 WORKDIR /app
 
+# Has to be provided at build time with --build-arg
 ARG NEXT_PUBLIC_HOST_URL
 
 ENV NODE_ENV=production \
@@ -36,8 +37,10 @@ COPY tsconfig.json ./
 COPY public ./public
 COPY src ./src
 
+# Mount private API key as a secret
+# Has to be provided at build time with --secret id=private_api_key,required
 RUN --mount=type=secret,id=private_api_key,env=PRIVATE_EXAMPLE_API_KEY \
-    SKIP_ENV_VALIDATION=1 pnpm build
+    pnpm build
   
 # --------------------------------------------------------
 # Stage 3: Run the application
