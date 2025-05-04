@@ -35,7 +35,7 @@ pnpm dev
 # Build Docker image
 # You have to pass NEXT_PUBLIC_ vars as build arguments
 # Secrets are passed with a secret mount as you can see in the Dockerfile
-docker build -t nextjs-template:prod --build-arg NEXT_PUBLIC_HOST_URL=http://localhost:3000 --secret id=env_file,src=.env .
+docker build -t nextjs-template:prod --build-arg NEXT_PUBLIC_HOST_URL=http://localhost:3000 --secret id=private_api_key,src=.env .
 
 # Start with Docker compose
 cd resources/deploy
@@ -62,4 +62,3 @@ NEXT_PUBLIC_HOST_URL=
 PRIVATE_EXAMPLE_API_KEY=
 SNYK_TOKEN=from-your-snyk-account
 ```
-
