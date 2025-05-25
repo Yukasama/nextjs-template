@@ -14,7 +14,8 @@ services:
         source: ~/volumes/sonarqube/logs
         target: /opt/sonarqube/logs
         read_only: true
-    env_file: .env
+    environment:
+      TZ: Europe/Berlin
     hostname: sonarqube
     container_name: sonarqube
     cap_drop: [ALL]

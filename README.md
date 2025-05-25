@@ -2,7 +2,7 @@
 
 ## Preparation
 
-```bash
+```sh
 # Install dependencies
 pnpm i
 
@@ -31,7 +31,7 @@ pnpm dev
 
 ### Use Docker
 
-```bash
+```sh
 # Build Docker image
 # You have to pass NEXT_PUBLIC_ vars as build arguments
 # Secrets are passed with a secret mount as you can see in the Dockerfile
@@ -44,7 +44,7 @@ docker compose up
 
 ### SonarQube Scan
 
-```bash
+```sh
 # Start SonarQube image
 cd resources/sonarqube
 docker compose up
@@ -57,8 +57,15 @@ pnpm sonar
 
 Note: For the CI to work, you have to add the following secrets to your repository:
 
-```bash
+```sh
 NEXT_PUBLIC_HOST_URL=
 PRIVATE_EXAMPLE_API_KEY=
 SNYK_TOKEN=from-your-snyk-account
+```
+
+### Next Bundle Analyzer
+
+```sh
+# Use this to analyze bundles
+ANALYZE=true pnpm build
 ```
