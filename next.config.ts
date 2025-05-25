@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
       source: '/(.*)',
     },
   ],
-  // output: 'standalone', # When using in Docker or similar environments
+  output: 'standalone', // When using in Docker or similar environments
   serverExternalPackages: ['pino', 'pino-pretty'],
 };
 
