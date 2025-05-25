@@ -1,6 +1,14 @@
+import bundleAnalyzer from '@next/bundle-analyzer';
 import type { NextConfig } from 'next';
 
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
     {
@@ -33,8 +41,8 @@ const nextConfig: NextConfig = {
       source: '/(.*)',
     },
   ],
-  output: 'standalone',
+  // output: 'standalone', # When using in Docker or similar environments
   serverExternalPackages: ['pino', 'pino-pretty'],
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

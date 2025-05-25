@@ -5,32 +5,22 @@ services:
       args:
         NEXT_PUBLIC_HOST_URL: http://localhost:3000
       dockerfile: Dockerfile
-    restart: unless-stopped
+    hostname: nextjs-template
+    container_name: nextjs-template
     ports:
       - '3000:3000'
     environment:
-      - NODE_ENV=production
-    env_file:
-      - ../../.env
-    cap_drop:
-      - ALL
-    cap_add:
-      - NET_BIND_SERVICE
-    security_opt:
-      - no-new-privileges:true
+      NODE_ENV: production
+    env_file: ../../.env
+    restart: unless-stopped
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
     read_only: true
     volumes:
-      - ~/volumes/nextjs-template/log:/app/log # Add your log volume here
+      - nextjs_logs:/app/log
     healthcheck:
-      test:
-        [
-          'CMD',
-          'wget',
-          '--no-verbose',
-          '--tries=1',
-          '--spider',
-          'http://localhost:3000/api/health',
-        ]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -43,3 +33,6 @@ services:
         reservations:
           cpus: '0.25'
           memory: 256M
+
+volumes:
+  nextjs_logs:
