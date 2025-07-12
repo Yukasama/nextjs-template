@@ -13,10 +13,8 @@ export const Provider = ({ children, nonce }: Readonly<Props>) => {
   const queryClient = getQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" disableTransitionOnChange nonce={nonce}>
-        {children}
-      </ThemeProvider>
-    </QueryClientProvider>
+    <ThemeProvider attribute="class" disableTransitionOnChange nonce={nonce}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </ThemeProvider>
   );
 };
