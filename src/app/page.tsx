@@ -7,6 +7,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4">
+      <h1 className="hidden text-[27px] font-bold">Next.js Template</h1>
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-[27px] font-bold">Next.js Template</h1>
         <ThemeToggle />

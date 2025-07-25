@@ -145,7 +145,7 @@ export const FeaturesSection = () => {
   return (
     <section className="py-7">
       <div className="mb-8 text-center">
-        <h1 className="mb-4 text-4xl font-bold">Template Features</h1>
+        <h2 className="mb-4 text-4xl font-bold">Template Features</h2>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
           Built with enterprise-grade tools and modern best practices for
           production-ready applications
