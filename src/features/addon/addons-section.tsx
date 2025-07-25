@@ -2,7 +2,6 @@
 
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
   Container,
@@ -170,6 +169,16 @@ export const FeaturesSection = () => {
                 selectedFeature === feature.id ? undefined : feature.id,
               )
             }
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setSelectedFeature(
+                  selectedFeature === feature.id ? undefined : feature.id,
+                );
+              }
+            }}
+            role="button"
+            tabIndex={0}
           >
             <div
               className={cn(
@@ -239,10 +248,10 @@ export const FeaturesSection = () => {
                     : 'max-h-0 opacity-0',
                 )}
               >
-                {feature.details.map((detail, index) => (
+                {feature.details.map((detail, i) => (
                   <div
                     className="text-muted-foreground flex items-center text-sm"
-                    key={index}
+                    key={`feature-detail-${i}`}
                   >
                     <div
                       className={cn(
@@ -256,14 +265,6 @@ export const FeaturesSection = () => {
                   </div>
                 ))}
               </div>
-
-              <Button
-                className="relative z-10 mt-4 w-full opacity-0 transition-all duration-300 group-hover:opacity-100"
-                size="sm"
-                variant="ghost"
-              >
-                {selectedFeature === feature.id ? 'Hide Details' : 'Learn More'}
-              </Button>
             </div>
           </div>
         ))}
