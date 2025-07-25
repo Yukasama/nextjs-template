@@ -40,7 +40,7 @@ const eslintConfig = tseslint.config(
       globals: { ...globals.browser, ...globals.node },
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['*.js', '*.mjs', '*.config.*'],
+          allowDefaultProject: ['*.mjs'],
           defaultProject: './tsconfig.json',
           maximumDefaultProjectFileMatchCount_THIS_WILL_SLOW_DOWN_LINTING: 0,
         },
