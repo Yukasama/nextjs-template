@@ -145,7 +145,7 @@ export const FeaturesSection = () => {
   return (
     <section className="py-7">
       <div className="mb-8 text-center">
-        <h2 className="mb-4 text-4xl font-bold">Template Features</h2>
+        <h1 className="mb-4 text-4xl font-bold">Template Features</h1>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
           Built with enterprise-grade tools and modern best practices for
           production-ready applications
@@ -216,14 +216,14 @@ export const FeaturesSection = () => {
                 </Badge>
               </div>
 
-              <h3
+              <p
                 className={cn(
                   'mb-2 text-xl font-semibold transition-all duration-300',
                   `group-hover:${feature.color}`,
                 )}
               >
                 {feature.title}
-              </h3>
+              </p>
 
               <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
                 {feature.description}
