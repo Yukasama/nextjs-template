@@ -143,7 +143,7 @@ export const FeaturesSection = () => {
   const [selectedFeature, setSelectedFeature] = useState<string | undefined>();
 
   return (
-    <section className="py-5">
+    <section className="py-7">
       <div className="mb-8 text-center">
         <h2 className="mb-4 text-4xl font-bold">Template Features</h2>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
@@ -154,11 +154,10 @@ export const FeaturesSection = () => {
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
-          <div
+          <button
             className={cn(
-              'group relative cursor-pointer overflow-hidden rounded-xl border p-6 transition-all duration-300',
-              'hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5',
-              'dark:hover:shadow-white/5',
+              'group relative cursor-pointer overflow-hidden rounded-xl border p-6 text-left transition-all duration-300',
+              'hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5',
               selectedFeature === feature.id
                 ? `scale-[1.02] shadow-lg shadow-black/10 dark:shadow-white/10 ${feature.hoverColor}`
                 : `hover:${feature.hoverColor}`,
@@ -169,16 +168,6 @@ export const FeaturesSection = () => {
                 selectedFeature === feature.id ? undefined : feature.id,
               )
             }
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                setSelectedFeature(
-                  selectedFeature === feature.id ? undefined : feature.id,
-                );
-              }
-            }}
-            role="button"
-            tabIndex={0}
           >
             <div
               className={cn(
@@ -251,11 +240,11 @@ export const FeaturesSection = () => {
                 {feature.details.map((detail, i) => (
                   <div
                     className="text-muted-foreground flex items-center text-sm"
-                    key={`feature-detail-${i}`}
+                    key={`feature-${detail}-${i}`}
                   >
                     <div
                       className={cn(
-                        'mr-2 h-1.5 w-1.5 rounded-full transition-colors duration-300',
+                        'mr-1.5 h-1.5 w-1.5 rounded-full transition-colors duration-300',
                         feature.color.split(' ')[0].replace('text-', 'bg-'),
                         'dark:' +
                           feature.color.split(' ')[1].replace('text-', 'bg-'),
@@ -266,7 +255,7 @@ export const FeaturesSection = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
 
@@ -278,7 +267,7 @@ export const FeaturesSection = () => {
 
         <div className="space-y-3">
           <div className="text-muted-foreground flex justify-center gap-1 text-sm">
-            Created by
+            <p>Created by</p>
             <span className="text-foreground font-semibold">Yukasama</span>
           </div>
 
