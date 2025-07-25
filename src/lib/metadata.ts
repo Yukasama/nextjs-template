@@ -1,5 +1,5 @@
 import { siteConfig } from '@/config/site';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const constructMetadata: () => Metadata = () => {
   return {
