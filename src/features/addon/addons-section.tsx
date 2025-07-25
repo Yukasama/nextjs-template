@@ -71,7 +71,7 @@ const features: Feature[] = [
     color: 'text-violet-600 dark:text-violet-400',
     description: 'Complete quality assurance pipeline with automated workflows',
     details: [
-      'Custom ESLint configuration with 15+ plugins',
+      'Custom ESLint configuration with 10+ plugins',
       'Snyk security vulnerability scanning',
       'Automated Docker image publishing',
       'GitHub Actions CI/CD pipeline',
@@ -154,120 +154,119 @@ export const FeaturesSection = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {features.map((feature) => {
-          const Icon = feature.icon;
-          const isSelected = selectedFeature === feature.id;
-
-          return (
+        {features.map((feature) => (
+          <div
+            className={cn(
+              'group relative cursor-pointer overflow-hidden rounded-xl border p-6 transition-all duration-300',
+              'hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5',
+              'dark:hover:shadow-white/5',
+              selectedFeature === feature.id
+                ? `scale-[1.02] shadow-lg shadow-black/10 dark:shadow-white/10 ${feature.hoverColor}`
+                : `hover:${feature.hoverColor}`,
+            )}
+            key={feature.id}
+            onClick={() =>
+              setSelectedFeature(
+                selectedFeature === feature.id ? undefined : feature.id,
+              )
+            }
+          >
             <div
               className={cn(
-                'group relative cursor-pointer overflow-hidden rounded-xl border p-6 transition-all duration-300',
-                'hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5',
-                'dark:hover:shadow-white/5',
-                isSelected
-                  ? `scale-[1.02] shadow-lg shadow-black/10 dark:shadow-white/10 ${feature.hoverColor}`
-                  : `hover:${feature.hoverColor}`,
+                'absolute inset-0 opacity-0 transition-opacity duration-500',
+                'animate-[shimmer_3s_ease-in-out_infinite] bg-gradient-to-r bg-[length:200%_100%]',
+                `bg-gradient-to-r ${feature.shimmerColor}`,
+                'group-hover:opacity-100',
               )}
-              key={feature.id}
-              onClick={() =>
-                setSelectedFeature(isSelected ? undefined : feature.id)
-              }
-            >
-              <div
-                className={cn(
-                  'absolute inset-0 opacity-0 transition-opacity duration-500',
-                  'animate-[shimmer_3s_ease-in-out_infinite] bg-gradient-to-r bg-[length:200%_100%]',
-                  `bg-gradient-to-r ${feature.shimmerColor}`,
-                  'group-hover:opacity-100',
-                )}
-                style={{
-                  animation: 'shimmer 3s ease-in-out infinite',
-                  backgroundSize: '200% 100%',
-                }}
-              />
+              style={{
+                animation: 'shimmer 3s ease-in-out infinite',
+                backgroundSize: '200% 100%',
+              }}
+            />
 
-              <div
-                className={cn(
-                  'absolute inset-0 rounded-xl opacity-0 transition-all duration-300',
-                  'bg-gradient-radial from-current/5 via-transparent to-transparent',
-                  feature.color,
-                  'group-hover:opacity-100',
-                )}
-              />
+            <div
+              className={cn(
+                'absolute inset-0 rounded-xl opacity-0 transition-all duration-300',
+                'bg-gradient-radial from-current/5 via-transparent to-transparent',
+                feature.color,
+                'group-hover:opacity-100',
+              )}
+            />
 
-              <div className="relative z-10">
-                <div className="mb-4 flex items-start justify-between">
-                  <div
-                    className={cn(
-                      'rounded-lg border p-3 transition-all duration-300',
-                      'bg-background/80 backdrop-blur-sm',
-                      'group-hover:bg-background/90 group-hover:shadow-sm',
-                      `group-hover:border-current/20 group-hover:${feature.color.replace('text-', 'shadow-')}`,
-                    )}
-                  >
-                    <Icon
-                      className={cn(
-                        'h-6 w-6 transition-all duration-300',
-                        feature.color,
-                      )}
-                    />
-                  </div>
-                  <Badge
-                    className="relative z-10 text-xs backdrop-blur-sm"
-                    variant="secondary"
-                  >
-                    {feature.badge}
-                  </Badge>
-                </div>
-
-                <h3
-                  className={cn(
-                    'mb-2 text-xl font-semibold transition-all duration-300',
-                    `group-hover:${feature.color}`,
-                  )}
-                >
-                  {feature.title}
-                </h3>
-
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-
+            <div className="relative z-10">
+              <div className="mb-4 flex items-start justify-between">
                 <div
                   className={cn(
-                    'space-y-2 overflow-hidden transition-all duration-300',
-                    isSelected ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+                    'rounded-lg border p-3 transition-all duration-300',
+                    'bg-background/80 backdrop-blur-sm',
+                    'group-hover:bg-background/90 group-hover:shadow-sm',
+                    `group-hover:border-current/20 group-hover:${feature.color.replace('text-', 'shadow-')}`,
                   )}
                 >
-                  {feature.details.map((detail, index) => (
-                    <div
-                      className="text-muted-foreground flex items-center text-sm"
-                      key={index}
-                    >
-                      <div
-                        className={cn(
-                          'mr-2 h-1.5 w-1.5 rounded-full transition-colors duration-300',
-                          feature.color.split(' ')[0].replace('text-', 'bg-'),
-                          'dark:' +
-                            feature.color.split(' ')[1].replace('text-', 'bg-'),
-                        )}
-                      />
-                      {detail}
-                    </div>
-                  ))}
+                  <feature.icon
+                    className={cn(
+                      'h-6 w-6 transition-all duration-300',
+                      feature.color,
+                    )}
+                  />
                 </div>
-
-                <Button
-                  className="relative z-10 mt-4 w-full opacity-0 transition-all duration-300 group-hover:opacity-100"
-                  size="sm"
-                  variant="ghost"
+                <Badge
+                  className="relative z-10 text-xs backdrop-blur-sm"
+                  variant="secondary"
                 >
-                  {isSelected ? 'Hide Details' : 'Learn More'}
-                </Button>
+                  {feature.badge}
+                </Badge>
               </div>
+
+              <h3
+                className={cn(
+                  'mb-2 text-xl font-semibold transition-all duration-300',
+                  `group-hover:${feature.color}`,
+                )}
+              >
+                {feature.title}
+              </h3>
+
+              <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                {feature.description}
+              </p>
+
+              <div
+                className={cn(
+                  'space-y-2 overflow-hidden transition-all duration-300',
+                  selectedFeature === feature.id
+                    ? 'max-h-96 opacity-100'
+                    : 'max-h-0 opacity-0',
+                )}
+              >
+                {feature.details.map((detail, index) => (
+                  <div
+                    className="text-muted-foreground flex items-center text-sm"
+                    key={index}
+                  >
+                    <div
+                      className={cn(
+                        'mr-2 h-1.5 w-1.5 rounded-full transition-colors duration-300',
+                        feature.color.split(' ')[0].replace('text-', 'bg-'),
+                        'dark:' +
+                          feature.color.split(' ')[1].replace('text-', 'bg-'),
+                      )}
+                    />
+                    {detail}
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                className="relative z-10 mt-4 w-full opacity-0 transition-all duration-300 group-hover:opacity-100"
+                size="sm"
+                variant="ghost"
+              >
+                {selectedFeature === feature.id ? 'Hide Details' : 'Learn More'}
+              </Button>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
       <div className="mt-8 space-y-6 text-center">
@@ -277,8 +276,8 @@ export const FeaturesSection = () => {
         </div>
 
         <div className="space-y-3">
-          <div className="text-muted-foreground text-sm">
-            Created by{' '}
+          <div className="text-muted-foreground flex justify-center gap-1 text-sm">
+            Created by
             <span className="text-foreground font-semibold">Yukasama</span>
           </div>
 
