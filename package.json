@@ -5,9 +5,9 @@
   "type": "module",
   "author": "Yukasama",
   "scripts": {
+    "start": "next start",
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
     "lint": "next lint",
     "lint:ts": "tsc --noEmit",
     "eslint:fix": "eslint --fix src",
@@ -81,7 +81,7 @@
     "sonarqube-scanner": "^4.3.0",
     "tailwindcss": "^4.1.11",
     "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-motion": "1.1.1",
+    "tailwindcss-motion": "^1.1.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0"
   },
