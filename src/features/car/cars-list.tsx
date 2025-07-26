@@ -12,7 +12,11 @@ interface Car {
   name: string;
 }
 
-export const CarsList = () => {
+interface CarsListProps {
+  initialCars?: Car[];
+}
+
+export const CarsList = ({ initialCars }: CarsListProps) => {
   const [newCarName, setNewCarName] = useState('');
   const [newCarColor, setNewCarColor] = useState('');
   const [fetchDuration, setFetchDuration] = useState<number | undefined>();
@@ -21,6 +25,7 @@ export const CarsList = () => {
 
   const { data, error, isFetching } = useQuery({
     gcTime: 10 * 60 * 1000,
+    initialData: initialCars,
     queryFn: async () => {
       const startTime = performance.now();
       const result = await getCars();
