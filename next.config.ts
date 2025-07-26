@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
       headers: [
         {
           key: 'Access-Control-Allow-Origin',
-          value: 'https://nextjs-template.com',
+          value: 'https://nextjs-template.candlezone.eu',
         },
         {
           key: 'Referrer-Policy',

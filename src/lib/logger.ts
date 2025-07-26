@@ -6,14 +6,15 @@ import pino from 'pino';
 const isProduction = env.NODE_ENV === 'production';
 const defaultLogLevel = env.LOG_LEVEL ?? 'info';
 
-const logDir = path.resolve(process.cwd(), 'log');
-const logFile = path.join(logDir, 'app.log');
+let logFile = '';
+if (!isProduction) {
+  const logDir = path.resolve(process.cwd(), 'log');
+  logFile = path.join(logDir, 'app.log');
 
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir, { recursive: true });
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
 }
-
-const fileStream = pino.destination({ dest: logFile, sync: false });
 
 const baseOptions = {
   base: { pid: false },
@@ -21,7 +22,7 @@ const baseOptions = {
 };
 
 export const logger: pino.Logger = isProduction
-  ? pino(baseOptions, fileStream)
+  ? pino(baseOptions)
   : pino({
       ...baseOptions,
       transport: {
