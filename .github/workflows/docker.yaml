@@ -1,0 +1,46 @@
+name: Test Docker Build
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_NAME: nextjs-template
+
+jobs:
+  test-build:
+    name: Test Build ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [linux/amd64, linux/arm64]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Derive platform arch
+        id: platform
+        shell: bash
+        run: |
+          arch="${{ matrix.platform }}"
+          arch="${arch##*/}"  # Extract amd64 or arm64
+          echo "arch=$arch" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Test build ${{ matrix.platform }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false # Never push, only test build
+          platforms: ${{ matrix.platform }}
+          tags: ${{ env.IMAGE_NAME }}:test-${{ steps.platform.outputs.arch }}
+          build-args: NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}
+          secrets: 'private_api_key=${{ secrets.PRIVATE_EXAMPLE_API_KEY }}'
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

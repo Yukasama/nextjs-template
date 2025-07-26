@@ -3,6 +3,8 @@ name: Publish Image
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 0 * * *'
 
 permissions:
   contents: read
@@ -58,7 +60,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           tags: ghcr.io/${{ steps.owner.outputs.owner_lc }}/${{ env.IMAGE_NAME }}:${{ steps.tags.outputs.arch_tag }}
           build-args: NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}
-          secrets: "private_api_key=${{ secrets.PRIVATE_EXAMPLE_API_KEY }}"
+          secrets: 'private_api_key=${{ secrets.PRIVATE_EXAMPLE_API_KEY }}'
           cache-from: type=registry,ref=ghcr.io/${{ steps.owner.outputs.owner_lc }}/${{ env.IMAGE_NAME }}:buildcache
           cache-to: type=registry,ref=ghcr.io/${{ steps.owner.outputs.owner_lc }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
