@@ -10,3 +10,6 @@
 
 # Required for build
 !tsconfig.json
+!tailwind.config.ts
+!postcss.config.mjs
+!components.json
