@@ -8,6 +8,8 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    useCache: true,
+    useLightningcss: true,
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
@@ -32,10 +34,6 @@ const nextConfig: NextConfig = {
         {
           key: 'X-Frame-Options',
           value: 'DENY',
-        },
-        {
-          key: 'X-XSS-Protection',
-          value: '1; mode=block',
         },
       ],
       source: '/(.*)',
