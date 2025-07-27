@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
     useCache: true,
-    useLightningcss: true,
   },
   // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
