@@ -23,7 +23,7 @@ export const CarsList = ({ initialCars }: CarsListProps) => {
   const [mutateDuration, setMutateDuration] = useState<number | undefined>();
   const queryClient = getQueryClient();
 
-  const { data, error, isFetching } = useQuery({
+  const { data, error, isFetching, refetch } = useQuery({
     gcTime: 10 * 60 * 1000,
     initialData: initialCars,
     queryFn: async () => {
@@ -85,12 +85,7 @@ export const CarsList = ({ initialCars }: CarsListProps) => {
   return (
     <div className="space-y-4">
       <div className="flex gap-2">
-        <Button
-          disabled={isFetching}
-          onClick={async () =>
-            await queryClient.refetchQueries({ queryKey: ['cars'] })
-          }
-        >
+        <Button disabled={isFetching} onClick={() => refetch()}>
           {isFetching ? 'Loading...' : 'Refetch'}
         </Button>
       </div>
