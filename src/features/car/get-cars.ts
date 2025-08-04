@@ -10,26 +10,17 @@ interface Car {
 }
 
 const cars: Car[] = [
-  {
-    color: 'red',
-    name: 'Ferrari',
-  },
-  {
-    color: 'blue',
-    name: 'Ford',
-  },
-  {
-    color: 'green',
-    name: 'Lamborghini',
-  },
+  { color: 'red', name: 'Ferrari' },
+  { color: 'blue', name: 'Ford' },
+  { color: 'green', name: 'Lamborghini' },
 ];
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const getCars = async () => {
   'use cache';
   cacheTag('cars');
 
   try {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     return cars;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -41,9 +32,9 @@ export const getCars = async () => {
   }
 };
 
+// eslint-disable-next-line @typescript-eslint/require-await
 export const addCar = async (car: Car) => {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     cars.push(car);
     revalidateTag('cars');
     return cars;
