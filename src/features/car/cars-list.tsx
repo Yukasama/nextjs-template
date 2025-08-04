@@ -2,21 +2,23 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { getQueryClient } from '@/lib/query-client';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { useState } from 'react';
-import { addCar, getCars } from './get-cars';
+import { addCar } from './get-cars';
 
 interface Car {
   color: string;
   name: string;
 }
 
-interface CarsListProps {
+interface Props {
   initialCars?: Car[];
 }
 
-export const CarsList = ({ initialCars }: CarsListProps) => {
+export const CarsList = ({ initialCars }: Props) => {
   const [newCarName, setNewCarName] = useState('');
   const [newCarColor, setNewCarColor] = useState('');
   const [fetchDuration, setFetchDuration] = useState<number | undefined>();
@@ -28,11 +30,11 @@ export const CarsList = ({ initialCars }: CarsListProps) => {
     initialData: initialCars,
     queryFn: async () => {
       const startTime = performance.now();
-      const result = await getCars();
+      const { data } = await axios.get<Car[]>('http://localhost:3001/cars');
       const endTime = performance.now();
       const duration = Math.round(endTime - startTime);
       setFetchDuration(duration);
-      return result;
+      return data;
     },
     queryKey: ['cars'],
     staleTime: 5 * 60 * 1000,
@@ -84,16 +86,14 @@ export const CarsList = ({ initialCars }: CarsListProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <Button disabled={isFetching} onClick={() => refetch()}>
-          {isFetching ? 'Loading...' : 'Refetch'}
-        </Button>
-      </div>
+      <Button disabled={isFetching} onClick={() => refetch()}>
+        {isFetching ? 'Loading...' : 'Refetch'}
+      </Button>
       <div className="space-y-2">
         <h2 className="text-lg font-semibold">Add New Car</h2>
         <div className="flex gap-2">
-          <input
-            className="rounded border px-2 py-1"
+          <Input
+            disabled={isPending}
             onChange={(e) => setNewCarName(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !isAddDisabled) {
@@ -101,11 +101,10 @@ export const CarsList = ({ initialCars }: CarsListProps) => {
               }
             }}
             placeholder="Car name"
-            type="text"
             value={newCarName}
           />
-          <input
-            className="rounded border px-2 py-1"
+          <Input
+            disabled={isPending}
             onChange={(e) => setNewCarColor(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !isAddDisabled) {
@@ -113,7 +112,6 @@ export const CarsList = ({ initialCars }: CarsListProps) => {
               }
             }}
             placeholder="Car color"
-            type="text"
             value={newCarColor}
           />
           <Button disabled={isAddDisabled} onClick={handleAddCar}>

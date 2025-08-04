@@ -1,14 +1,37 @@
-import { CarsWrapper } from '@/features/car/cars-wrapper';
+import { CarsList } from '@/features/car/cars-list';
+import axios from 'axios';
+import { unstable_cacheTag as cacheTag } from 'next/cache';
 import { Suspense } from 'react';
 
-export default function CarsPage() {
+interface Car {
+  color: string;
+  name: string;
+}
+
+export default function CarsServerPage() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="mb-4 text-3xl font-bold">Cars</h1>
       <p className="mb-8">Explore our collection of cars.</p>
-      <Suspense fallback={<div className="bg-red-500">Loading cars...</div>}>
-        <CarsWrapper />
+      <Suspense
+        fallback={
+          <div className="space-y-2">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div className="skeleton h-6 w-full rounded-md" key={index} />
+            ))}
+          </div>
+        }
+      >
+        <CarsContent />
       </Suspense>
     </div>
   );
 }
+
+const CarsContent = async () => {
+  'use cache';
+  cacheTag('cars');
+
+  const { data } = await axios.get<Car[]>('http://localhost:3001/cars');
+  return <CarsList initialCars={data} />;
+};
