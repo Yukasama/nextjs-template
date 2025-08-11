@@ -1,12 +1,7 @@
 import { CarsList } from '@/features/car/cars-list';
-import axios from 'axios';
+import { getCars } from '@/features/car/get-cars';
 import { unstable_cacheTag as cacheTag } from 'next/cache';
 import { Suspense } from 'react';
-
-interface Car {
-  color: string;
-  name: string;
-}
 
 export default function CarsServerPage() {
   return (
@@ -32,6 +27,6 @@ const CarsContent = async () => {
   'use cache';
   cacheTag('cars');
 
-  const { data } = await axios.get<Car[]>('http://localhost:3001/cars');
-  return <CarsList initialCars={data} />;
+  const cars = await getCars();
+  return <CarsList initialCars={cars} />;
 };
