@@ -5,9 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { getQueryClient } from '@/lib/query-client';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { useState } from 'react';
-import { addCar } from './get-cars';
+import { addCar, getCars } from './get-cars';
 
 interface Car {
   color: string;
@@ -30,7 +29,7 @@ export const CarsList = ({ initialCars }: Props) => {
     initialData: initialCars,
     queryFn: async () => {
       const startTime = performance.now();
-      const { data } = await axios.get<Car[]>('http://localhost:3001/cars');
+      const data = await getCars();
       const endTime = performance.now();
       const duration = Math.round(endTime - startTime);
       setFetchDuration(duration);
