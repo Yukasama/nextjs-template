@@ -28,7 +28,7 @@ export const getCars = async () => {
     } else if (error instanceof Error) {
       logger.error('Unknown error: %s', error.message);
     }
-    logger.error('An error occurred while fetching cars: %s', error);
+    logger.error('An error occurred while fetching cars: %s', String(error));
   }
 };
 
@@ -44,6 +44,6 @@ export const addCar = async (car: Car) => {
     } else if (error instanceof Error) {
       logger.error('Unknown error: %s', error.message);
     }
-    logger.error('An error occurred while adding a car: %s', error);
+    logger.error('An error occurred while adding a car: %s', String(error));
   }
 };

@@ -23,6 +23,11 @@ export const GET = async () => {
     } else if (error instanceof Error) {
       logger.error('Unknown error: %s', error.message);
     }
-    logger.error('An error occurred while fetching cars: %s', error);
+    logger.error('An error occurred while fetching cars: %s', String(error));
+
+    return NextResponse.json(
+      { error: 'Failed to fetch cars' },
+      { status: 500 },
+    );
   }
 };
