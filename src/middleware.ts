@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { generateCspHeader } from './config/csp-header';
+import { generateCspHeader } from './config/csp';
 
 export const middleware = (req: NextRequest) => {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
