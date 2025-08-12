@@ -46,7 +46,7 @@ RUN --mount=type=secret,id=private_api_key,env=PRIVATE_EXAMPLE_API_KEY \
 # --------------------------------------------------------
 # Stage 3: Run the application
 # --------------------------------------------------------
-# NOSONAR: This distroless image runs as nonroot user (UID 65532) by default
+# NOSONAR docker:S6496 - This distroless :nonroot variant runs as UID 65532 by default
 FROM gcr.io/distroless/nodejs24-debian12:nonroot AS runner
 WORKDIR /app
 
