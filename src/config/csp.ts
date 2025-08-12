@@ -8,7 +8,7 @@ const connectSrcURIs = ['https://va.vercel-scripts.com'];
 export const generateCspHeader = ({ nonce }: { nonce: string }) => {
   return `
     default-src 'self';
-    connect-src 'self' ${connectSrcURIs.join(' ')} ${isDev ? '*' : ''};
+    connect-src 'self' ${connectSrcURIs.join(' ')} ${isDev ? 'localhost:* 127.0.0.1:*' : ''};
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-inline' https: http: ${isDev ? "'unsafe-eval'" : ''};
     style-src 'self' 'unsafe-inline';
     img-src 'self' blob: data: ;
