@@ -46,7 +46,7 @@ RUN --mount=type=secret,id=private_api_key,env=PRIVATE_EXAMPLE_API_KEY \
 # --------------------------------------------------------
 # Stage 3: Run the application
 # --------------------------------------------------------
-FROM gcr.io/distroless/nodejs24-debian12:nonroot AS runner
+FROM gcr.io/distroless/nodejs24-debian12:latest AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production \
@@ -55,10 +55,12 @@ ENV NODE_ENV=production \
     NODE_OPTIONS="--max-old-space-size=2048" \
     NEXT_SHARP_PATH=/app/node_modules/sharp
 
-COPY --from=builder --chown=nonroot:nonroot /app/public ./public
-COPY --from=builder --chown=nonroot:nonroot /app/.next/standalone ./
-COPY --from=builder --chown=nonroot:nonroot /app/.next/static ./.next/static
-COPY --from=builder --chown=nonroot:nonroot /app/.next/cache ./.next/cache
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/.next/cache ./.next/cache
 
+USER nonroot
 EXPOSE 3000
+
 CMD ["server.js"]
