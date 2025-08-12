@@ -1,8 +1,12 @@
-ARG NODE_VERSION=22
+ARG NODE_VERSION=24.5.0
+
+# --------------------------------------------------------
+# Stage 0: Setup
+# --------------------------------------------------------
 FROM node:${NODE_VERSION}-slim AS base
 
-ENV PNPM_HOME="/root/.local/share/pnpm"
-ENV PATH="${PNPM_HOME}:${PATH}"
+ENV PNPM_HOME="/root/.local/share/pnpm" \
+    PATH="${PNPM_HOME}:${PATH}"
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # --------------------------------------------------------
@@ -31,38 +35,30 @@ ENV NODE_ENV=production \
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/package.json /app/pnpm-lock.yaml ./
-
 COPY next.config.ts tsconfig.json tailwind.config.ts postcss.config.mjs components.json ./
 COPY public ./public
 COPY src ./src
 
-# Mount private API key as a secret
-# Has to be provided at build time with --secret id=private_api_key,required
+# Mount private API key as secret, must be provided at build time with --secret id=private_api_key,required
 RUN --mount=type=secret,id=private_api_key,env=PRIVATE_EXAMPLE_API_KEY \
     pnpm build
 
 # --------------------------------------------------------
 # Stage 3: Run the application
 # --------------------------------------------------------
-FROM node:${NODE_VERSION}-slim AS runner
+FROM gcr.io/distroless/nodejs24-debian12:nonroot AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     NODE_NO_WARNINGS=1 \
-    NODE_OPTIONS=--max-old-space-size=2048 \
+    NODE_OPTIONS="--max-old-space-size=2048" \
     NEXT_SHARP_PATH=/app/node_modules/sharp
 
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder --chown=nonroot:nonroot /app/public ./public
+COPY --from=builder --chown=nonroot:nonroot /app/.next/standalone ./
+COPY --from=builder --chown=nonroot:nonroot /app/.next/static ./.next/static
+COPY --from=builder --chown=nonroot:nonroot /app/.next/cache ./.next/cache
 
-# Create .next/cache directory and fix ownership for Next.js image caching
-RUN groupadd -r nextjs && useradd --no-log-init -r -g nextjs nextjs && \
-    mkdir -p /app/.next/cache && \
-    chown -R nextjs:nextjs /app
-
-USER nextjs
 EXPOSE 3000
-
-CMD ["node", "server.js"]
+CMD ["server.js"]

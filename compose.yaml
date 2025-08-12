@@ -1,10 +1,8 @@
 services:
   nextjs:
     build:
-      context: ../..
       args:
         NEXT_PUBLIC_HOST_URL: http://localhost:3000
-      dockerfile: Dockerfile
     hostname: nextjs-template
     container_name: nextjs-template
     ports:
@@ -12,7 +10,7 @@ services:
     environment:
       NODE_ENV: production
       TZ: Europe/Berlin
-    env_file: ../../.env
+    env_file: .env
     restart: unless-stopped
     cap_drop: [ALL]
     cap_add: [NET_BIND_SERVICE]

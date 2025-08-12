@@ -85,7 +85,6 @@ docker build -t nextjs-template:prod \
   --secret id=private_api_key,src=.env .
 
 # Start with Docker Compose
-cd resources/deploy
 docker compose up
 ```
 
