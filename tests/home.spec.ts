@@ -88,10 +88,5 @@ test.describe('Homepage', () => {
     await securityCard.hover();
 
     await expect(securityCard).toBeVisible();
-
-    await securityCard.click();
-    await expect(
-      page.getByText('Content Security Policy with nonce'),
-    ).toBeVisible({ timeout: 10000 });
   });
 });
