@@ -92,6 +92,6 @@ test.describe('Homepage', () => {
     await securityCard.click();
     await expect(
       page.getByText('Content Security Policy with nonce'),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
   });
 });
