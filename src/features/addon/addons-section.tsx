@@ -229,26 +229,31 @@ export const FeaturesSection = () => {
                 {feature.description}
               </p>
 
-              {selectedFeature === feature.id && (
-                <div className="animate-in slide-in-from-top-1 space-y-2 duration-300">
-                  {feature.details.map((detail, i) => (
+              <div
+                className={cn(
+                  'space-y-2 overflow-hidden transition-all duration-300',
+                  selectedFeature === feature.id
+                    ? 'max-h-96 opacity-100'
+                    : 'max-h-0 opacity-0',
+                )}
+              >
+                {feature.details.map((detail, i) => (
+                  <div
+                    className="text-muted-foreground flex items-center text-sm"
+                    key={`feature-${detail}-${i}`}
+                  >
                     <div
-                      className="text-muted-foreground flex items-center text-sm"
-                      key={`feature-${detail}-${i}`}
-                    >
-                      <div
-                        className={cn(
-                          'mr-1.5 h-1.5 w-1.5 rounded-full transition-colors duration-300',
-                          feature.color.split(' ')[0].replace('text-', 'bg-'),
-                          'dark:' +
-                            feature.color.split(' ')[1].replace('text-', 'bg-'),
-                        )}
-                      />
-                      {detail}
-                    </div>
-                  ))}
-                </div>
-              )}
+                      className={cn(
+                        'mr-1.5 h-1.5 w-1.5 rounded-full transition-colors duration-300',
+                        feature.color.split(' ')[0].replace('text-', 'bg-'),
+                        'dark:' +
+                          feature.color.split(' ')[1].replace('text-', 'bg-'),
+                      )}
+                    />
+                    {detail}
+                  </div>
+                ))}
+              </div>
             </div>
           </button>
         ))}
