@@ -53,7 +53,7 @@ export default defineConfig({
 
   /* Run local dev server before starting the tests */
   webServer: {
-    command: process.env.CI ? 'node .next/standalone/server.js' : 'pnpm start',
+    command: process.env.CI ? 'node .next/standalone/server.js' : 'npm start',
     reuseExistingServer: !process.env.CI,
     stderr: 'pipe',
     stdout: 'ignore',
