@@ -10,7 +10,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react'],
     useCache: true,
   },
-  // eslint-disable-next-line @typescript-eslint/require-await
   headers: async () => [
     {
       headers: [

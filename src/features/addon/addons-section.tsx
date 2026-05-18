@@ -1,18 +1,11 @@
 'use client';
 
+import { Container, KeyRound, Palette, PlayCircle, Shield, Workflow } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
 import { Icons } from '@/components/icons';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import {
-  Container,
-  KeyRound,
-  Palette,
-  PlayCircle,
-  Shield,
-  Workflow,
-} from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
 
 interface Feature {
   badge: string;
@@ -30,8 +23,7 @@ const features: Feature[] = [
   {
     badge: 'Security',
     color: 'text-emerald-700 dark:text-emerald-300',
-    description:
-      'CSP with nonce-based security, comprehensive headers protection',
+    description: 'CSP with nonce-based security, comprehensive headers protection',
     details: [
       'Content Security Policy with nonce',
       'X-Frame-Options, X-XSS-Protection',
@@ -49,16 +41,14 @@ const features: Feature[] = [
   {
     badge: 'DevOps',
     color: 'text-blue-600 dark:text-blue-400',
-    description:
-      'BuildKit secrets, multi-stage optimization, standalone output',
+    description: 'BuildKit secrets, multi-stage optimization, standalone output',
     details: [
       'BuildKit secret mounts for API keys',
       'Multi-stage optimized builds',
       'Standalone output for production',
       'pnpm workspace optimization',
     ],
-    hoverColor:
-      'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/50',
+    hoverColor: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800/50',
     icon: Container,
     id: 'docker',
     shimmerColor:
@@ -70,13 +60,12 @@ const features: Feature[] = [
     color: 'text-violet-600 dark:text-violet-400',
     description: 'Complete quality assurance pipeline with automated workflows',
     details: [
-      'Custom ESLint configuration with 10+ plugins',
+      'Custom Oxlint configuration',
       'Snyk security vulnerability scanning',
       'Automated Docker image publishing',
       'GitHub Actions CI/CD pipeline',
     ],
-    hoverColor:
-      'bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/50',
+    hoverColor: 'bg-violet-50 dark:bg-violet-950/30 border-violet-200 dark:border-violet-800/50',
     icon: Workflow,
     id: 'quality',
     shimmerColor:
@@ -93,8 +82,7 @@ const features: Feature[] = [
       'Separate client/server env vars',
       'Zod schema validation',
     ],
-    hoverColor:
-      'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800/50',
+    hoverColor: 'bg-indigo-50 dark:bg-indigo-950/30 border-indigo-200 dark:border-indigo-800/50',
     icon: KeyRound,
     id: 'env',
     shimmerColor:
@@ -111,8 +99,7 @@ const features: Feature[] = [
       'Dark/light theme integration',
       'Advanced animation utilities',
     ],
-    hoverColor:
-      'bg-teal-50 dark:bg-teal-950/30 border-teal-200 dark:border-teal-800/50',
+    hoverColor: 'bg-teal-50 dark:bg-teal-950/30 border-teal-200 dark:border-teal-800/50',
     icon: Palette,
     id: 'tailwind',
     shimmerColor:
@@ -129,8 +116,7 @@ const features: Feature[] = [
       'Cross-browser compatibility tests',
       'CI/CD integrated test pipeline',
     ],
-    hoverColor:
-      'bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/50',
+    hoverColor: 'bg-orange-50 dark:bg-orange-950/30 border-orange-200 dark:border-orange-800/50',
     icon: PlayCircle,
     id: 'testing',
     shimmerColor:
@@ -147,14 +133,16 @@ export const FeaturesSection = () => {
       <div className="mb-8 text-center">
         <h1 className="mb-4 text-4xl font-bold">Template Features</h1>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-          Built with enterprise-grade tools and modern best practices for
-          production-ready applications
+          Built with enterprise-grade tools and modern best practices for production-ready
+          applications
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature) => (
           <button
+            aria-expanded={selectedFeature === feature.id}
+            aria-label={`${selectedFeature === feature.id ? 'Hide' : 'Show'} details for ${feature.title}`}
             className={cn(
               'group relative cursor-pointer overflow-hidden rounded-xl border p-6 text-left transition-all duration-300',
               'hover:scale-[1.02] hover:shadow-lg hover:shadow-black/5 dark:hover:shadow-white/5',
@@ -164,16 +152,14 @@ export const FeaturesSection = () => {
             )}
             key={feature.id}
             onClick={() =>
-              setSelectedFeature(
-                selectedFeature === feature.id ? undefined : feature.id,
-              )
+              setSelectedFeature(selectedFeature === feature.id ? undefined : feature.id)
             }
           >
             <div
               className={cn(
                 'absolute inset-0 opacity-0 transition-opacity duration-500',
-                'animate-[shimmer_3s_ease-in-out_infinite] bg-gradient-to-r bg-[length:200%_100%]',
-                `bg-gradient-to-r ${feature.shimmerColor}`,
+                'animate-[shimmer_3s_ease-in-out_infinite] bg-linear-to-r bg-size-[200%_100%]',
+                `bg-linear-to-r ${feature.shimmerColor}`,
                 'group-hover:opacity-100',
               )}
               style={{
@@ -202,16 +188,10 @@ export const FeaturesSection = () => {
                   )}
                 >
                   <feature.icon
-                    className={cn(
-                      'h-6 w-6 transition-all duration-300',
-                      feature.color,
-                    )}
+                    className={cn('h-6 w-6 transition-all duration-300', feature.color)}
                   />
                 </div>
-                <Badge
-                  className="relative z-10 text-xs backdrop-blur-sm"
-                  variant="secondary"
-                >
+                <Badge className="relative z-10 text-xs backdrop-blur-sm" variant="secondary">
                   {feature.badge}
                 </Badge>
               </div>
@@ -232,9 +212,7 @@ export const FeaturesSection = () => {
               <div
                 className={cn(
                   'space-y-2 overflow-hidden transition-all duration-300',
-                  selectedFeature === feature.id
-                    ? 'max-h-96 opacity-100'
-                    : 'max-h-0 opacity-0',
+                  selectedFeature === feature.id ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
                 )}
               >
                 {feature.details.map((detail, i) => (
@@ -246,8 +224,7 @@ export const FeaturesSection = () => {
                       className={cn(
                         'mr-1.5 h-1.5 w-1.5 rounded-full transition-colors duration-300',
                         feature.color.split(' ')[0].replace('text-', 'bg-'),
-                        'dark:' +
-                          feature.color.split(' ')[1].replace('text-', 'bg-'),
+                        'dark:' + feature.color.split(' ')[1].replace('text-', 'bg-'),
                       )}
                     />
                     {detail}

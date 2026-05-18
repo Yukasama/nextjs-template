@@ -19,11 +19,11 @@
 
 - 🔒 **A+ Security Headers** - CSP with nonce-based security, comprehensive headers protection
 - 🐳 **Docker-Ready** - BuildKit secrets, multi-stage optimization, standalone output
-- 🔧 **Quality Assurance** - Custom ESLint configuration with 15+ plugins, automated workflows
+- 🔧 **Quality Assurance** - Custom Oxlint configuration, automated workflows
 - 🛡️ **Typesafe Environment** - T3-env with validation, build-time type checking
 - 🎨 **Tailwind CSS v4** - Next-generation CSS framework with advanced theming
 - 🧪 **End-to-End Tests** - Playwright testing with accessibility validation
-- ⚡ **Next.js 15** - Latest React framework with App Router
+- ⚡ **Next.js 16** - Latest React framework with App Router
 - 🌙 **Dark Theme** - Seamless light/dark mode with next-themes
 - 📝 **Structured Logging** - Pino logger with development file output
 - ✨ **Code Formatting** - Prettier with automatic formatting
@@ -60,14 +60,14 @@ Your application will be available at **http://localhost:3000**
 
 ### Available Scripts
 
-| Command         | Description                             |
-| --------------- | --------------------------------------- |
-| `pnpm dev`      | Start development server with Turbopack |
-| `pnpm build`    | Build for production                    |
-| `pnpm start`    | Start production server                 |
-| `pnpm test`     | Run Playwright tests                    |
-| `pnpm lint`     | Lint code with ESLint                   |
-| `pnpm prettier` | Format code with Prettier               |
+| Command      | Description                             |
+| ------------ | --------------------------------------- |
+| `pnpm dev`   | Start development server with Turbopack |
+| `pnpm build` | Build for production                    |
+| `pnpm start` | Start production server                 |
+| `pnpm test`  | Run Playwright tests                    |
+| `pnpm lint`  | Lint code with Oxlint                   |
+| `pnpm fmt`   | Format code                             |
 
 ---
 
@@ -92,22 +92,6 @@ docker compose up
 
 </details>
 
-### SonarQube Code Analysis
-
-<details>
-<summary><strong>Run quality analysis</strong></summary>
-
-```bash
-# Start SonarQube server
-cd resources/sonarqube
-docker compose up
-
-# Run code analysis (from root directory)
-pnpm sonar
-```
-
-</details>
-
 ### GitHub Actions CI/CD
 
 <details>
@@ -123,7 +107,7 @@ SNYK_TOKEN=your-snyk-token-from-account
 
 The pipeline automatically handles:
 
-- Code linting with ESLint
+- Code linting with Oxlint
 - End-to-end testing with Playwright
 - Security scanning with Snyk
 - Docker image publishing
@@ -148,14 +132,13 @@ This will generate a detailed report of your bundle sizes and help identify opti
 
 ## Tech Stack
 
-- **Framework:** [Next.js 15](https://nextjs.org/) with App Router
+- **Framework:** [Next.js 16](https://nextjs.org/) with App Router
 - **Language:** [TypeScript](https://www.typescriptlang.org/) for type safety
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) with custom design system
 - **Testing:** [Playwright](https://playwright.dev/) for E2E testing
 - **Logging:** [Pino](https://getpino.io/) for structured logging
 - **Environment:** [T3 Env](https://env.t3.gg/) for typesafe environment variables
-- **Linting:** [ESLint 9](https://eslint.org/) with 15+ plugins
-- **Code Quality:** [SonarQube](https://www.sonarqube.org/) integration
+- **Linting:** [Oxlint](https://oxc.rs/docs/guide/what-is-oxc.html)
 - **Security:** CSP with nonce + comprehensive headers
 - **Deployment:** Docker-ready with multi-stage builds
 

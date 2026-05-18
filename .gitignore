@@ -29,7 +29,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .million
-.eslintcache
 
 # local env files
 .env*
@@ -49,10 +48,6 @@ certificates
 /blob-report/
 /playwright/.cache/
 /test-results/
-
-# sonarqube
-.scannerwork
-.sonar
 
 # cloudflare
 .wrangler/

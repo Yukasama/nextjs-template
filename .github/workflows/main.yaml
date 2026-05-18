@@ -57,7 +57,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
 
-      - name: Lint with ESLint
+      - name: Lint with Oxlint
         run: pnpm lint
 
   outdated:

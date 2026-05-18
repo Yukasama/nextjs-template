@@ -1,10 +1,10 @@
-import { Provider } from '@/features/shared/provider';
-import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Lexend } from 'next/font/google';
 import { headers } from 'next/headers';
 import type { PropsWithChildren } from 'react';
+import { Provider } from '@/features/shared/provider';
+import { cn } from '@/lib/utils';
 import { constructMetadata } from '../lib/metadata';
 import './globals.css';
 
@@ -22,9 +22,7 @@ export const viewport = {
   ],
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<PropsWithChildren>) {
+export default async function RootLayout({ children }: Readonly<PropsWithChildren>) {
   const headerList = await headers();
   const nonce = headerList.get('x-nonce');
 

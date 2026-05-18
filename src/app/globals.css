@@ -1,10 +1,8 @@
 @import 'tailwindcss';
-
+@plugin 'tailwindcss-animate';
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-motion';
 @variant dark (&:is(.dark *));
-
-@plugin "tailwindcss-animate";
-@plugin "@tailwindcss/typography";
-@plugin "tailwindcss-motion";
 
 @theme {
   --color-background: var(--color-white);
